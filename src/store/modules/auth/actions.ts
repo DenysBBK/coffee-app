@@ -55,6 +55,7 @@ export default{
         }
         },
 
+
     async signIn(context:any, payload:SignInData){
         const type = payload.type
         const resp = await fetch(`https://coffee-app-fc81b-default-rtdb.europe-west1.firebasedatabase.app/${type}.json`)
@@ -71,8 +72,6 @@ export default{
         if(!isAnyFound){
             throw new Error(`${theType} is not found`)
         };
-        
-        
         
         const responce = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCn1i-L0RTLONbk82ySwxsEkqvxfJkokqI',{
             method:'POST',
@@ -93,7 +92,6 @@ export default{
             token: data.idToken,
             userId: data.localId,
         })
-
 
     }
 }

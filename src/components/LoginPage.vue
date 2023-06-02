@@ -81,6 +81,7 @@ export default{
                 await this.$store.dispatch('signIn', actionPayload);
                 this.useAlert('success', 'Successful login')
                 actionPayload.type === 'users' ? this.$router.replace('/user-profile') : this.$router.replace('/cafe-profile')
+
             }catch(error){
                 this.useAlert('error', error.message)
                 console.log(error.message)
