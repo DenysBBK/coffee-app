@@ -27,7 +27,7 @@
                 <label for="user" class='pl-2'>To user account</label>
             </div>
         </div>
-        <span v-if="isOneProperty" class='text-red-500 pt-2'>Need to choose only one option</span>
+        <span v-if="checkValidator" class='text-red-500 pt-2'>Need to choose one option</span>
             <button @click="submitForm" class='rounded-full bg-white border-2 border-gray py-2 px-5 mt-5 center
              hover:text-white hover:bg-yellow-400 ' type="button" mode="flat"
              >Login</button>
@@ -45,7 +45,7 @@ export default{
             password:'',
             toUserAccount:false,
             toShopAccount:false,
-            isCheckedOne:false,
+            checkValidator:false,
             isShow: false,
             isLoading:false,
             isEmailValid:false,
@@ -54,25 +54,33 @@ export default{
     },
     methods:{
         async submitForm(){
-            if(this.email === '' && this.password === ''){
+            if(this.email === '' && this.password === '' && !this.toShopAccount && !this.toUserAccount){
                 this.isEmailValid = true;
                 this.isPasswordValid = true;
+                this.checkValidator = true;
                 return
             }
             if(this.email === ''){ this.isEmailValid = true; 
                 return};
             if(this.password === ''){this.isPasswordValid = true; 
                 return};
+            if(!this.toShopAccount && !this.toUserAccount){
+                this.checkValidator = true;
+                return
+            };
+            if(this.toShopAccount && this.toUserAccount){
+                this.checkValidator = true;
+                return
+            }
             const actionPayload = {
                 email:this.email,
                 password:this.password,
-                user:this.toUserAccount,
-                cafe:this.toShopAccount
+                type: this.toUserAccount ? 'users' : 'shops'
             }
             try{
                 await this.$store.dispatch('signIn', actionPayload);
                 this.useAlert('success', 'Successful login')
-                this.$router.replace('/')
+                actionPayload.type === 'users' ? this.$router.replace('/user-profile') : this.$router.replace('/cafe-profile')
             }catch(error){
                 this.useAlert('error', error.message)
                 console.log(error.message)
@@ -88,17 +96,17 @@ export default{
     },
     computed:{
            //сделать доступным к нажатию только один чек-бокс
-        isOneProperty(){
-            if(this.toShopAccount && this.toUserAccoutn){
-                this.isCheckedOne = true
-                return true
-            }else{
-                this.isCheckedOne = false
-                return false
-            }
+        // isOneProperty(){
+        //     if(this.toShopAccount && this.toUserAccount){
+        //         this.checkValidator = true
+        //         return true
+        //     }else{
+        //         this.checkValidator = false
+        //         return false
+        //     }
             
         
-            }
+        //     }
         },
         mounted(){
             document.title = 'Login'

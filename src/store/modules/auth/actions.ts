@@ -4,12 +4,14 @@ interface SighUpData {
     type:string,
     name:string
 };
-interface SignIndata{
+interface SignInData{
     email:string,
     password:string,
     returnSecureToken:boolean,
-    user:boolean,
-    cafe:boolean
+    type:string
+}
+interface Item{
+    email:string
 }
 
 
@@ -53,14 +55,31 @@ export default{
         }
         },
 
-    async signIn(context:any, payload:SignIndata){
+    async signIn(context:any, payload:SignInData){
+        const type = payload.type
+        const resp = await fetch(`https://coffee-app-fc81b-default-rtdb.europe-west1.firebasedatabase.app/${type}.json`)
+        const theData:any = await resp.json();
+        const dataResult = []
+        for(const key in theData){
+            const oneItem:Item = {
+                email:theData[key].email
+            }
+            dataResult.push(oneItem)
+        };
+        const theType:string = payload.type === 'users'? 'User':'Cafe'
+        const isAnyFound:boolean = dataResult.some(one => one.email === payload.email);
+        if(!isAnyFound){
+            throw new Error(`${theType} is not found`)
+        };
+        
+        
+        
         const responce = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCn1i-L0RTLONbk82ySwxsEkqvxfJkokqI',{
             method:'POST',
             body:JSON.stringify( {
                 email:payload.email,
                 password:payload.password,
-                user:payload.user,
-                cafe:payload.cafe,
+                type:payload.type,
                 returnSecureToken:true
             })
         });
