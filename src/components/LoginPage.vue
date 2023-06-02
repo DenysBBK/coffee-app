@@ -1,0 +1,94 @@
+<template>
+    <div class='container mx-auto max-w-lg px-2' > 
+        <base-alert :show="showAlert" :alertType="typeOfAlert" >
+            <p>{{ alertText }}</p>
+            </base-alert>
+            <base-spinner :showSpinner="isLoading"></base-spinner>  
+        <form class='flex flex-col items-center border-2 border-black rounded-lg p-2 bg-yellow-50' 
+        @submit.prevent="submitForm">
+            <p class='font-bold text-xl'>Login</p>
+            <div class='flex flex-col pt-3'>
+                <label for="email" class='text-center'>Email</label>
+                <input type="email" id="email"  class='mt-2' v-model.trim="email">
+                <p class="text-red-600 text-xs" v-if="isEmailValid">Email must be not empty</p>
+            </div>
+            <div class='flex flex-col pt-3'>
+                <label for="password" class='text-center'>Password</label>
+                <input type="password" id="password"  class='mt-2' v-model.trim="password">
+                <p class="text-red-600 text-xs" v-if="isPasswordValid">Password must be not empty</p>
+            </div>
+            <div>
+            <div class='pt-5'>
+                <input type="checkbox" id="shop" v-model="toShopAccount">
+                <label for="shop" class='pl-2'>To cafe account</label>
+            </div>
+            <div>
+                <input type="checkbox" id="user" v-model="toUserAccount">
+                <label for="user" class='pl-2'>To user account</label>
+            </div>
+        </div>
+        <span v-if="isOneProperty" class='text-red-500 pt-2'>Need to choose only one option</span>
+            <button @click="submitForm" class='rounded-full bg-white border-2 border-gray py-2 px-5 mt-5 center
+             hover:text-white hover:bg-yellow-400 ' type="button" mode="flat"
+             >Login</button>
+             <span class='mt-5'>Don`t have account?<router-link to="/registration" class='text-blue-600'> Registration</router-link></span>
+        </form>
+        </div>
+</template>
+<script>
+import alertMixin from '../components/mixins/alert.js'
+export default{
+    mixins:[alertMixin],
+    data(){
+        return{
+            email:'',
+            password:'',
+            toUserAccount:false,
+            toShopAccount:false,
+            isCheckedOne:false,
+            isShow: false,
+            isLoading:false,
+            isEmailValid:false,
+            isPasswordValid:false,  
+        }
+    },
+    methods:{
+        submitForm(){
+            if(this.email === '' && this.password === ''){
+                this.isEmailValid = true;
+                this.isPasswordValid = true;
+                return
+            }
+            if(this.email === ''){ this.isEmailValid = true; 
+                return};
+            if(this.password === ''){this.isPasswordValid = true; 
+                return};
+            this.email = '';
+            this.password = '';
+            this.toShopAccount = false;
+            this.toUserAccount = false
+            
+            this.useAlert('success', 'And function work')   
+        }
+    },
+    computed:{
+           //сделать доступным к нажатию только один чек-бокс
+        isOneProperty(){
+            if(this.toShopAccount && this.toUserAccoutn){
+                this.isCheckedOne = true
+                return true
+            }else{
+                this.isCheckedOne = false
+                return false
+            }
+            
+        
+            }
+        },
+        mounted(){
+            document.title = 'Login'
+        }
+    }
+    
+
+</script>
