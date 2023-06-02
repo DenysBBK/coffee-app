@@ -3,6 +3,13 @@ interface SighUpData {
     password:string,
     type:string,
     name:string
+};
+interface SignIndata{
+    email:string,
+    password:string,
+    returnSecureToken:boolean,
+    user:boolean,
+    cafe:boolean
 }
 
 
@@ -44,5 +51,30 @@ export default{
             throw error
             };
         }
+        },
+
+    async signIn(context:any, payload:SignIndata){
+        const responce = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCn1i-L0RTLONbk82ySwxsEkqvxfJkokqI',{
+            method:'POST',
+            body:JSON.stringify( {
+                email:payload.email,
+                password:payload.password,
+                user:payload.user,
+                cafe:payload.cafe,
+                returnSecureToken:true
+            })
+        });
+        const data = await responce.json();
+        if(!responce.ok){
+            const error = new Error(data.error.message);
+            throw error
         }
+        localStorage.setItem('token', data.idToken);
+        context.commit('setUser', {
+            token: data.idToken,
+            userId: data.localId,
+        })
+
+
+    }
 }

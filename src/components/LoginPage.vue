@@ -53,7 +53,7 @@ export default{
         }
     },
     methods:{
-        submitForm(){
+        async submitForm(){
             if(this.email === '' && this.password === ''){
                 this.isEmailValid = true;
                 this.isPasswordValid = true;
@@ -63,12 +63,27 @@ export default{
                 return};
             if(this.password === ''){this.isPasswordValid = true; 
                 return};
+            const actionPayload = {
+                email:this.email,
+                password:this.password,
+                user:this.toUserAccount,
+                cafe:this.toShopAccount
+            }
+            try{
+                await this.$store.dispatch('signIn', actionPayload);
+                this.useAlert('success', 'Successful login')
+                this.$router.replace('/')
+            }catch(error){
+                this.useAlert('error', error.message)
+                console.log(error.message)
+            }
+            
             this.email = '';
             this.password = '';
             this.toShopAccount = false;
             this.toUserAccount = false
             
-            this.useAlert('success', 'And function work')   
+          
         }
     },
     computed:{
