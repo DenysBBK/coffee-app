@@ -15,7 +15,7 @@ const router = createRouter({
         { path: '/registration', component: SingUp },
         { path: '/terms', component: Terms },
         { path: '/privacy-policy', component: Privacy },
-        { path: '/user-profile', component: UserPage},
+        { path: '/user-profile/:uid', component: UserPage, props:true},
         { path: '/cafe-profile', component: CafePage}
     ]
 });

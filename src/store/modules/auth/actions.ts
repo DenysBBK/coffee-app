@@ -11,7 +11,8 @@ interface SignInData{
     type:string
 }
 interface Item{
-    email:string
+    email:string,
+    id:string
 }
 
 
@@ -44,7 +45,7 @@ export default{
             body:JSON.stringify({
                 email:payload.email,
                 name:payload.name,
-                
+                id:theId
             })
             })
             const data = await responce.json()
@@ -63,15 +64,27 @@ export default{
         const dataResult = []
         for(const key in theData){
             const oneItem:Item = {
-                email:theData[key].email
+                email:theData[key].email,
+                id:theData[key].id
             }
             dataResult.push(oneItem)
+            console.log(dataResult)
+            
         };
         const theType:string = payload.type === 'users'? 'User':'Cafe'
         const isAnyFound:boolean = dataResult.some(one => one.email === payload.email);
         if(!isAnyFound){
             throw new Error(`${theType} is not found`)
         };
+        let id;
+        dataResult.map(one => {
+            if(one.email === payload.email){
+                id = one.id.toString()
+                localStorage.setItem('uid', id)
+            }
+        });
+        
+        
         
         const responce = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCn1i-L0RTLONbk82ySwxsEkqvxfJkokqI',{
             method:'POST',
@@ -91,6 +104,7 @@ export default{
         context.commit('setUser', {
             token: data.idToken,
             userId: data.localId,
+            uid:id
         })
 
     }
