@@ -1,16 +1,17 @@
 <template>
-    <div>
+    <div class='container mx-auto max-w-xl px-2 '>
         <base-alert :show="showAlert" :alertType="typeOfAlert" >
             <p>{{ alertText }}</p>
             </base-alert>
         <transition name="profile" mode="out-in">
-    <form @submit.prevent="saveChanges" v-if="!profileUpdated">
-        <div>
+    <form class='border-2 border-black rounded-lg p-10 bg-yellow-50 '
+    @submit.prevent="saveChanges" v-if="!profileUpdated">
+        <div class="flex pb-10 flex-col sm:flex-row">
             <div>
                 <label for="photo">Add your photo</label>
                 <input type="file" id="photo">
             </div>
-            <div>
+            <div class="flex flex-col gap-y-2">
                 <label for="name">Name</label>
                 <input type="text" id="name" v-model.trim="name">
                 <label for="phone">Phone</label>
@@ -27,29 +28,43 @@
                 <input type="text" id="card" v-model="cardNumber">
             </div> 
         </div>
+        <div class="flex justify-center">
         <button @click="saveChanges" type="button"
-        class='rounded-full bg-white border-2 border-gray py-2 px-5 mt-5 center
-             hover:text-white hover:bg-yellow-400 '
+        class='rounded-full bg-white border-2 border-gray py-2 px-5 
+             hover:text-white hover:bg-yellow-400'
              >Save</button>
+        </div>
     </form>
 </transition>
 <transition name="profile" mode="out-in">
-    <div v-if="profileUpdated">
-        <div>
+    <div v-if="profileUpdated" class='border-2 border-black rounded-lg p-10 bg-yellow-50'>
+        <div class="flex flex-col gap-y-5">
                 <div>
                     <img src="../../images/coffee-cup.png" class="max-w-100 max-h-10 object-contain">
                 </div>
                 <div>
-                    <p>Name: {{ name }}</p>
-                    <p>Phone number: {{ phone }}</p>
-                    <p>Bank: {{ bank }}</p>
-                    <p>Card Number: {{ cardNumber === ''? '': this.cardNumber.slice(0, -8) + "********" }}</p>
+                    <p><b>Name:</b> {{ name }}</p>
+                    <p><b>Phone number:</b> {{ phone }}</p>
+                    <p><b>Bank:</b> {{ bank }}</p>
+                    <p><b>Card Number:</b> {{ cardNumber === ''? '': this.cardNumber.slice(0, -8) + "********" }}</p>
                 </div>
         </div>
-        <button @click="updateProfile" type="button"
+        <div class="flex justify-center">
+            <button @click="updateProfile" type="button"
         class='rounded-full bg-white border-2 border-gray py-2 px-5 mt-5 center
-             hover:text-white hover:bg-yellow-400 '>Update profile
-        </button>
+        hover:text-white hover:bg-yellow-400 '>Update profile
+            </button>
+        </div>  
+        <div class="flex place-content-around">
+            <router-link :to="userHistory">
+                <button class='rounded-full bg-white border-2 border-gray py-2 px-5 mt-5 center
+             hover:text-white hover:bg-yellow-400'>History &#x2192</button>
+            </router-link>
+            <router-link :to="userOrders">
+                <button class='rounded-full bg-white border-2 border-gray py-2 px-5 mt-5 center
+             hover:text-white hover:bg-yellow-400'>Orders &#x2192</button>
+            </router-link>
+        </div>
         
     </div>
 </transition>
@@ -82,6 +97,17 @@ export default{
             
         }
     },
+    computed:{
+        userHistory(){
+            let id = localStorage.getItem('uid')
+                return `/user-profile/${id}/history`
+        },
+        userOrders(){
+            let id = localStorage.getItem('uid')
+                return `/user-profile/${id}/orders`
+        }
+    },
+    
 }
 </script>
 <style scoped>
@@ -92,11 +118,11 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 .profile-enter-from{
   opacity: 0;
-  transform: translateX(-30px);
+  transform: translateX(30px);
 }
 .profile-leave-to{
   opacity: 0;
-  transform: translateX(30px);
+  transform: translateX(-30px);
 }
 .profile-enter-active{
   transition: all 0.3s ease-out;

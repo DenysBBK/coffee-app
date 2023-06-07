@@ -80,12 +80,14 @@ export default{
             try{
                 await this.$store.dispatch('signIn', actionPayload);
                 this.useAlert('success', 'Successful login')
-                console.log(this.userPage)
+                console.log(this.uid)
                 
-             
                 
-                actionPayload.type === 'users' ? this.$router.replace('/user-profile') : this.$router.replace('/cafe-profile')
-
+                
+                
+                actionPayload.type === 'users' ? this.$router.replace(`/user-profile/${this.uid}`) : this.$router.replace('/cafe-profile')
+                
+                
             }catch(error){
                 this.useAlert('error', error.message)
                 console.log(error.message)
@@ -100,9 +102,9 @@ export default{
         }
     },
     computed:{
-            userPage(){
-                return this.$store.state.uid 
-            }
+            uid(){
+                return this.$store.getters.uid
+            },
            //сделать доступным к нажатию только один чек-бокс
         // isOneProperty(){
         //     if(this.toShopAccount && this.toUserAccount){
@@ -118,6 +120,8 @@ export default{
         },
         mounted(){
             document.title = 'Login'
+            
+            
         }
     }
     

@@ -1,5 +1,5 @@
 <template>
     <div>
-        All user history
+        Choose you coffee
     </div>
 </template>

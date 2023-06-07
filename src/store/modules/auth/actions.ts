@@ -79,7 +79,7 @@ export default{
         let id;
         dataResult.map(one => {
             if(one.email === payload.email){
-                id = one.id.toString()
+                id = one.id
                 localStorage.setItem('uid', id)
             }
         });
