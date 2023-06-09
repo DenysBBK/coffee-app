@@ -1,9 +1,11 @@
 import {createStore} from 'vuex';
-import authModule from './modules/auth/index'
+import authModule from './modules/auth/index';
+import profileModule from './modules/profile/index';
 
 const store = createStore({
     modules:{
-        auth:authModule
+        auth:authModule,
+        profile:profileModule
     }
 });
 

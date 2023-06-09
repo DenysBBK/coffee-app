@@ -1,40 +1,38 @@
 <template>
     <div class='container mx-auto max-w-xl px-2 '>
-        <base-alert :show="showAlert" :alertType="typeOfAlert" >
-            <p>{{ alertText }}</p>
+            <base-alert :show="showAlert" :alertType="typeOfAlert" >
+                <p>{{ alertText }}</p>
             </base-alert>
         <transition name="profile" mode="out-in">
-    <form class='border-2 border-black rounded-lg p-10 bg-yellow-50 '
-    @submit.prevent="saveChanges" v-if="!profileUpdated">
-        <div class="flex pb-10 flex-col sm:flex-row">
-            <div>
-                <label for="photo">Add your photo</label>
-                <input type="file" id="photo">
+        <form class='border-2 border-black rounded-lg p-10 bg-yellow-50 '
+        @submit.prevent="saveChanges" v-if="!profileUpdated">
+            <div class="flex pb-10 flex-col sm:flex-row">
+                <div>
+                    <label for="photo">Add your photo</label>
+                    <input type="file" id="photo">
+                </div>
+                <div class="flex flex-col gap-y-2">
+                    <label for="phone">Phone</label>
+                    <input type="tel" id="phone" v-model.trim="phone">
+                    <label for="bank">Choose you bank</label>
+                    <select id="bank" v-model="bank">
+                        <option value="choose">Choose</option>
+                        <option value="Monobank">Monobank</option>
+                        <option value="PrivatBank">PrivatBank</option>
+                        <option value="Oshad">Oshad Bank</option>
+                        <option value="Pumb">Pumb</option>
+                    </select>
+                    <label for="card">Card number</label>
+                    <input type="text" id="card" v-model="cardNumber">
+                </div> 
             </div>
-            <div class="flex flex-col gap-y-2">
-                <label for="name">Name</label>
-                <input type="text" id="name" v-model.trim="name">
-                <label for="phone">Phone</label>
-                <input type="tel" id="phone" v-model.trim="phone">
-                <label for="bank">Choose you bank</label>
-                <select id="bank" v-model="bank">
-                    <option value="choose">Choose</option>
-                    <option value="Monobank">Monobank</option>
-                    <option value="PrivatBank">PrivatBank</option>
-                    <option value="Oshad">Oshad Bank</option>
-                    <option value="Pumb">Pumb</option>
-                </select>
-                <label for="card">Card number</label>
-                <input type="text" id="card" v-model="cardNumber">
-            </div> 
-        </div>
-        <div class="flex justify-center">
-        <button @click="saveChanges" type="button"
-        class='rounded-full bg-white border-2 border-gray py-2 px-5 
-             hover:text-white hover:bg-yellow-400'
-             >Save</button>
-        </div>
-    </form>
+            <div class="flex justify-center">
+            <button @click="saveChanges" type="button"
+            class='rounded-full bg-white border-2 border-gray py-2 px-5 
+                hover:text-white hover:bg-yellow-400'
+                >Save</button>
+            </div>
+        </form>
 </transition>
 <transition name="profile" mode="out-in">
     <div v-if="profileUpdated" class='border-2 border-black rounded-lg p-10 bg-yellow-50'>
@@ -77,7 +75,6 @@ export default{
     mixins:[alertMixin],
     data(){
         return{
-            name:'',
             phone:'',
             bank:'choose',
             cardNumber:'',
@@ -90,10 +87,22 @@ export default{
             console.log('Update')
             this.profileUpdated = false
         },
-        saveChanges(){
+        async saveChanges(){
             console.log('Saved')
+            const formData = {
+                phone:this.phone,
+                bank:this.bank,
+                card:this.cardNumber
+            }
+            try{
+                await this.$store.dispatch('postUser', formData)
+            }catch(error){
+                console.log(error)
+                
+            }
             this.profileUpdated = true
             this.useAlert('success', 'Changes saved')
+            
             
         }
     },
@@ -107,7 +116,6 @@ export default{
                 return `/user-profile/${id}/orders`
         }
     },
-    
 }
 </script>
 <style scoped>
