@@ -1,6 +1,16 @@
+interface getUserData{
+    bank:string,
+    card:string,
+    email:string,
+    id:number,
+    name:string,
+    phone:string
+}
+
+
 export default{
     async postUser(context:any,payload:any){
-        const uid = localStorage.getItem('uid');
+        let uid = localStorage.getItem('uid');
         const url = `https://coffee-app-fc81b-default-rtdb.europe-west1.firebasedatabase.app/users/${uid}.json`
 
         const getResp = await fetch(url);
@@ -20,5 +30,21 @@ export default{
         if(!data.ok){
             throw new Error('Cant post the data')
         }
+    },
+    async getUserData(context:any){
+        let uid = localStorage.getItem('uid');
+        const responce = await fetch(`https://coffee-app-fc81b-default-rtdb.europe-west1.firebasedatabase.app/users/${uid}.json`);
+        const data:getUserData = await responce.json();
+        console.log(data)
+        
+        context.commit('getUser',{
+            bank:data.bank,
+            card:data.card,
+            email:data.email,
+            id:data.id,
+            name:data.name,
+            phone:data.phone
+        })
+        
     }
 }

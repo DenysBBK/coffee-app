@@ -5,7 +5,14 @@ import mutations from "./mutations";
 export default{
     state(){
         return{
-
+            user:{
+                bank:'',
+                card:'',
+                email:'',
+                id:null,
+                name:'',
+                phone:''
+            }
         }
     },
     actions,

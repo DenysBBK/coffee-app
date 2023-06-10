@@ -75,6 +75,7 @@ export default{
     mixins:[alertMixin],
     data(){
         return{
+            name:'',
             phone:'',
             bank:'choose',
             cardNumber:'',
@@ -114,8 +115,26 @@ export default{
         userOrders(){
             let id = localStorage.getItem('uid')
                 return `/user-profile/${id}/orders`
+        },
+        getUserData(){
+            return this.$store.getters.user
         }
     },
+    async mounted(){
+       await  this.$store.dispatch('getUserData')
+       if(this.getUserData.bank == '' && this.getUserData.card == '' && this.getUserData.phone == ''){
+            this.profileUpdated = false
+       } else if(!this.getUserData.bank && !this.getUserData.card && !this.getUserData.phone){
+            this.profileUpdated = false
+       } else{
+        this.name = this.getUserData.name;
+        this.bank = this.getUserData.bank;
+        this.card = this.getUserData.card;
+        this.phone = this.getUserData.phone;
+        this.profileUpdated = true
+       }
+       
+    }
 }
 </script>
 <style scoped>

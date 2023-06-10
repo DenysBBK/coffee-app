@@ -107,5 +107,15 @@ export default{
             uid:id
         })
 
+    },
+    logout(context:any){
+        localStorage.removeItem('uid');
+        localStorage.removeItem('token');
+
+        context.commit('setUser', {
+            userId: null,
+            token: null,
+            uid:''
+        })
     }
 }

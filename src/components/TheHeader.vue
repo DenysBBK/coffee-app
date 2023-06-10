@@ -21,27 +21,53 @@
         <ul :class="showMenu ? 'flex' : 'hidden'"
             class=" flex-col mt-8  items-end md:flex  md:flex-row md:items-end gap-x-3 gap-y-2 md:mt-0">
             <li class='rounded-full bg-yellow-200 py-2 px-3 text-center
-             hover:text-white hover:bg-yellow-400'>Профіль</li>
+             hover:text-white hover:bg-yellow-400' v-if="isLoggedIn">Profile</li>
+
             <li class='rounded-full bg-yellow-200 py-2 px-3 text-center
-             hover:text-white hover:bg-yellow-400'>Замовлення</li>
-            <li class='rounded-full bg-yellow-200 py-2 px-3 text-center
-             hover:text-white hover:bg-yellow-400'>
-             <router-link to="/login">Логін</router-link>
-             </li>
-            <li class='rounded-full bg-yellow-200 py-2 px-3 text-center
-             hover:text-white hover:bg-yellow-400'>
-             <router-link to="/registration">Реєстрація</router-link>
-             </li>
+             hover:text-white hover:bg-yellow-400' v-if="isLoggedIn">Orders</li>
+            <router-link to="/login" v-if="!isLoggedIn">
+                <li class='rounded-full bg-yellow-200 py-2 px-3 text-center
+                hover:text-white hover:bg-yellow-400'>
+                Login
+                </li>
+            </router-link>
+            <router-link to="/registration" v-if="!isLoggedIn">
+                <li class='rounded-full bg-yellow-200 py-2 px-3 text-center
+                hover:text-white hover:bg-yellow-400'>
+                Registration
+                </li>
+            </router-link>
+            <button @click="logout" v-if="isLoggedIn">
+                <li class='rounded-full bg-yellow-200 py-2 px-3 text-center
+                hover:text-white hover:bg-yellow-400'>
+                Logout
+                </li>
+            </button>
         </ul>
     </nav>
 </header>
 </template>
-<script lang="ts">
+<script>
 export default{
     data(){
         return{
             showMenu: false,
         }
+    },
+    methods:{
+        logout(){
+            
+            this.$router.replace('/login')
+            this.$store.dispatch('logout')
+            
+        }
+    },
+    computed:{
+    isLoggedIn(){
+      return this.$store.getters.isAuthenticated
+      console.log(this.$store.getters.isAuthenticated)
+      
+    }
     }
 }
 
