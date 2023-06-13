@@ -37,8 +37,8 @@
 <transition name="profile" mode="out-in">
     <div v-if="profileUpdated" class='border-2 border-black rounded-lg p-10 bg-yellow-50'>
         <div class="flex flex-col gap-y-5">
-                <div>
-                    <img src="../../images/coffee-cup.png" class="max-w-100 max-h-10 object-contain">
+                <div class="avatar rounded-full flex items-center justify-center">
+                    <img class="avatar__image" src="../../images/photo.jpg" />
                 </div>
                 <div>
                     <p><b>Name:</b> {{ name }}</p>
@@ -129,7 +129,7 @@ export default{
        } else{
         this.name = this.getUserData.name;
         this.bank = this.getUserData.bank;
-        this.card = this.getUserData.card;
+        this.cardNumber = this.getUserData.card;
         this.phone = this.getUserData.phone;
         this.profileUpdated = true
        }
@@ -162,6 +162,8 @@ input[type="number"]::-webkit-outer-spin-button {
   opacity: 1;
   transform: translateX(0);
 }
+
+
 
 
 </style>

@@ -1,5 +1,132 @@
 <template>
-    <div>
-        CAFE PAGE
+    <div class='container mx-auto max-w-xl px-2'>
+        <base-alert :show="showAlert" :alertType="typeOfAlert" >
+            <p>{{ alertText }}</p>
+        </base-alert>
+        <transition name="profile" mode="out-in">
+            <form class='border-2 border-black rounded-lg p-10 bg-yellow-50'
+            @submit.prevent="saveChanges" v-if="!profileUpdated">
+                <div class="flex pb-10 flex-col gap-y-3">
+                        <label for="photo"><b>Add cafe logo</b></label>
+                        <input type="file" id="photo">  
+                        <label for="place"><b>Enter Address</b></label>
+                        <input class="w-1/2" type="text" id="place" v-model.trim="cafeAddress">
+                        <label for="phone"><b>Contact Phone</b></label>
+                        <input class="w-1/2" type="text" id="phone" v-model.trim="phone">
+                        <div>
+                            <button type="button" @click="addPosition"><b>Add position</b> ➕</button>
+                            <div class="flex gap-x-2 pb-2" v-for="(item, index) in positions" :key="index">
+                                <label :for="'pos'+index"><b>Item</b></label>
+                                <input type="text" :id="'pos'+index" v-model="item.name">
+                                <label :for="'price'+index"><b>Price</b></label>
+                                <input class="w-10" type="text" :id="'price'+index" v-model="item.price">
+                                <button type="button" @click="deletePosition(index)">✖️</button>
+                            </div>
+                        </div>
+                </div>
+                <div class="flex justify-center">
+                    <button @click="saveChanges" type="button"
+                     class='rounded-full bg-white border-2 border-gray py-2 px-5 
+                     hover:text-white hover:bg-yellow-400'
+                    >Save</button>
+                </div>
+            </form>
+        </transition>
+        <transition name="profile" mode="out-in">
+            <div v-if="profileUpdated" class='border-2 border-black rounded-lg p-10 bg-yellow-50'>
+                <div class="flex flex-col gap-y-5">
+                    <div class="avatar rounded-full flex items-center justify-center">
+                        <img class="avatar__image" src="../../images/photo.jpg" />
+                    </div>
+                    <div>
+                        <p><b>Cafe name:</b> {{ name }}</p>
+                        <p><b>Address:</b> {{ cafeAddress }}</p>
+                        <p><b>Contact phone:</b> {{ phone }}</p>
+                    </div>
+                    <p><b>Available positions:</b></p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="item in positions" :key="item.name">
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.price }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex justify-center">
+                    <button @click="updateProfile" type="button"
+                    class='rounded-full bg-white border-2 border-gray py-2 px-5 mt-5 center
+                    hover:text-white hover:bg-yellow-400 '>Update profile
+                    </button>
+                </div>
+            </div>
+        </transition>
     </div>
 </template>
+<script>
+import alertMixin from '../components/mixins/alert.js'
+export default{
+    mixins:[alertMixin],
+    data(){
+        return{
+            name:'Aroma',
+            cafeAddress:'',
+            phone:'',
+            positions:[{
+                name:'',
+                price:''
+            }],
+            profileUpdated:false
+        }
+    },
+    methods:{
+        addPosition(){
+            console.log('Adde new position');
+            this.positions.push({
+                name:'',
+                price:''
+            })
+            console.log(this.positions) 
+        },
+        deletePosition(index){       
+            this.positions.splice(index, 1)  
+        },
+        saveChanges(){
+            this.profileUpdated = true
+            console.log('Form is submitted');
+            this.useAlert('success', 'Changes saved') 
+        },
+        updateProfile(){
+            console.log('Update')
+            this.profileUpdated = false
+        },
+    }
+}
+</script>
+<style scoped>
+.profile-enter-from{
+  opacity: 0;
+  transform: translateX(30px);
+}
+.profile-leave-to{
+  opacity: 0;
+  transform: translateX(-30px);
+}
+.profile-enter-active{
+  transition: all 0.3s ease-out;
+}
+.profile-leave-active{
+  transition: all 0.3s ease-in;
+}
+.profile-enter-to,
+.profile-leave-from{
+  opacity: 1;
+  transform: translateX(0);
+}
+</style>

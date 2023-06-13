@@ -4,7 +4,7 @@ export default{
     uid(state:any){
         return state.uid
     },
-    isAuthenticated(state:any){
+    isUserAuthenticated(state:any){
         return !!state.token
     },
 }

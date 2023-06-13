@@ -85,7 +85,7 @@ export default{
                 
                 
                 
-                actionPayload.type === 'users' ? this.$router.replace(`/user-profile/${this.uid}`) : this.$router.replace('/cafe-profile')
+                actionPayload.type === 'users' ? this.$router.replace(`/user-profile/${this.uid}`) : this.$router.replace(`/cafe-profile/${this.uid}`)
                 
                 
             }catch(error){

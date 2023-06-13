@@ -21,23 +21,23 @@
         <ul :class="showMenu ? 'flex' : 'hidden'"
             class=" flex-col mt-8  items-end md:flex  md:flex-row md:items-end gap-x-3 gap-y-2 md:mt-0">
             <li class='rounded-full bg-yellow-200 py-2 px-3 text-center
-             hover:text-white hover:bg-yellow-400' v-if="isLoggedIn">Profile</li>
+             hover:text-white hover:bg-yellow-400' v-if="isUserLoggedIn">Profile</li>
 
             <li class='rounded-full bg-yellow-200 py-2 px-3 text-center
-             hover:text-white hover:bg-yellow-400' v-if="isLoggedIn">Orders</li>
-            <router-link to="/login" v-if="!isLoggedIn">
+             hover:text-white hover:bg-yellow-400' v-if="isUserLoggedIn">Orders</li>
+            <router-link to="/login" v-if="!isUserLoggedIn">
                 <li class='rounded-full bg-yellow-200 py-2 px-3 text-center
                 hover:text-white hover:bg-yellow-400'>
                 Login
                 </li>
             </router-link>
-            <router-link to="/registration" v-if="!isLoggedIn">
+            <router-link to="/registration" v-if="!isUserLoggedIn">
                 <li class='rounded-full bg-yellow-200 py-2 px-3 text-center
                 hover:text-white hover:bg-yellow-400'>
                 Registration
                 </li>
             </router-link>
-            <button @click="logout" v-if="isLoggedIn">
+            <button @click="logout" v-if="isUserLoggedIn">
                 <li class='rounded-full bg-yellow-200 py-2 px-3 text-center
                 hover:text-white hover:bg-yellow-400'>
                 Logout
@@ -63,9 +63,9 @@ export default{
         }
     },
     computed:{
-    isLoggedIn(){
-      return this.$store.getters.isAuthenticated
-      console.log(this.$store.getters.isAuthenticated)
+    isUserLoggedIn(){
+      return this.$store.getters.isUserAuthenticated
+      console.log(this.$store.getters.isUserAuthenticated)
       
     }
     }

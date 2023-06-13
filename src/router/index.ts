@@ -22,7 +22,7 @@ const router = createRouter({
         { path: '/user-profile/:uid', component: UserPage, props:true,},
         { path: '/user-profile/:uid/history', component: UserHistory, props:true},
         { path: '/user-profile/:uid/orders', component:UserOrders,props:true},
-        { path: '/cafe-profile', component: CafePage}
+        { path: '/cafe-profile/:uid', component: CafePage, props:true}
   ]
 });
 
