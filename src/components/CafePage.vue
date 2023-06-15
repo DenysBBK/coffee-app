@@ -3,7 +3,7 @@
         <base-alert :show="showAlert" :alertType="typeOfAlert" >
             <p>{{ alertText }}</p>
         </base-alert>
-        <transition name="profile" mode="out-in">
+        <transition name="profile" mode="out-in" v-if="!profileUpdated">
             <form class='border-2 border-black rounded-lg p-10 bg-yellow-50'
             @submit.prevent="saveChanges" v-if="!profileUpdated">
                 <div class="flex pb-10 flex-col gap-y-3">
@@ -32,7 +32,7 @@
                 </div>
             </form>
         </transition>
-        <transition name="profile" mode="out-in">
+        <transition name="profile" mode="in-out" v-if="profileUpdated">
             <div v-if="profileUpdated" class='border-2 border-black rounded-lg p-10 bg-yellow-50'>
                 <div class="flex flex-col gap-y-5">
                     <div class="avatar rounded-full flex items-center justify-center">
@@ -82,7 +82,7 @@ export default{
                 name:'',
                 price:''
             }],
-            profileUpdated:false
+            profileUpdated:undefined
         }
     },
     methods:{
@@ -97,15 +97,43 @@ export default{
         deletePosition(index){       
             this.positions.splice(index, 1)  
         },
-        saveChanges(){
-            this.profileUpdated = true
-            console.log('Form is submitted');
+        async saveChanges(){
+            const formData = {
+                address:this.cafeAddress,
+                phone:this.phone,
+                positions:this.positions
+            }
+            try{
+                await this.$store.dispatch('postCafe', formData);
+            }catch(error){
+                console.log(error)
+                
+            };
+            this.profileUpdated = true;
             this.useAlert('success', 'Changes saved') 
         },
         updateProfile(){
             console.log('Update')
             this.profileUpdated = false
         },
+    },
+    computed:{
+        getCafeData(){
+            return this.$store.getters.cafe
+        }
+    },
+    async beforeCreate(){
+        try{
+            await this.$store.dispatch('getCafeData');
+            this.profileUpdated = true
+        }catch(error){
+            console.log(error)
+        }
+        this.phone = this.getCafeData.phone,
+        this.positions = this.getCafeData.positions,
+        this.name = this.getCafeData.name,
+        this.cafeAddress = this.getCafeData.address,
+        this.profileUpdated = true
     }
 }
 </script>

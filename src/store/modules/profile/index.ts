@@ -12,6 +12,14 @@ export default{
                 id:null,
                 name:'',
                 phone:''
+            },
+            cafe:{
+                address:'',
+                name:'',
+                phone:'',
+                id:null,
+                email:'',
+                positions:[]
             }
         }
     },

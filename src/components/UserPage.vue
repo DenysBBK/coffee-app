@@ -1,9 +1,9 @@
 <template>
-    <div class='container mx-auto max-w-xl px-2 '>
+    <div class='container mx-auto max-w-xl px-2'>
             <base-alert :show="showAlert" :alertType="typeOfAlert" >
                 <p>{{ alertText }}</p>
             </base-alert>
-        <transition name="profile" mode="out-in">
+        <!-- <transition name="profile" mode="out-in"> -->
         <form class='border-2 border-black rounded-lg p-10 bg-yellow-50 '
         @submit.prevent="saveChanges" v-if="!profileUpdated">
             <div class="flex pb-10 flex-col sm:flex-row">
@@ -33,8 +33,8 @@
                 >Save</button>
             </div>
         </form>
-</transition>
-<transition name="profile" mode="out-in">
+<!-- </transition>
+<transition name="profile" mode="in-out"> -->
     <div v-if="profileUpdated" class='border-2 border-black rounded-lg p-10 bg-yellow-50'>
         <div class="flex flex-col gap-y-5">
                 <div class="avatar rounded-full flex items-center justify-center">
@@ -60,12 +60,12 @@
             </router-link>
             <router-link :to="userOrders">
                 <button class='rounded-full bg-white border-2 border-gray py-2 px-5 mt-5 center
-             hover:text-white hover:bg-yellow-400'>Orders &#x2192</button>
+             hover:text-white hover:bg-yellow-400'>Make order &#x2192</button>
             </router-link>
         </div>
         
     </div>
-</transition>
+<!-- </transition> -->
 </div>
 
 </template>
@@ -87,6 +87,7 @@ export default{
         updateProfile(){
             console.log('Update')
             this.profileUpdated = false
+            
         },
         async saveChanges(){
             console.log('Saved')
@@ -103,9 +104,8 @@ export default{
             }
             this.profileUpdated = true
             this.useAlert('success', 'Changes saved')
-            
-            
-        }
+        },
+
     },
     computed:{
         userHistory(){
