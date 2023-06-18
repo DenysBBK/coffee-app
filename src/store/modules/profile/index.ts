@@ -19,8 +19,13 @@ export default{
                 phone:'',
                 id:null,
                 email:'',
-                positions:[]
-            }
+                positions:[{
+                    name:'',
+                    price:''
+                }],
+                city:''
+            },
+            shops:[]
         }
     },
     actions,

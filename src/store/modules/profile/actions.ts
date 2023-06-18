@@ -15,7 +15,8 @@ interface getCafeData{
     positions:[{
         name:string,
         price:string
-    }]
+    }],
+    city:string
 }
 
 
@@ -68,7 +69,8 @@ export default{
             ...oldData,
             address: payload.address,
             phone:payload.phone,
-            positions:payload.positions
+            positions:payload.positions,
+            city:payload.city
         };
         const responce = await fetch(url,{
             method:"PUT",
@@ -90,7 +92,36 @@ export default{
             id:data.id,
             name:data.name,
             phone:data.phone,
-            positions:data.positions
+            positions:data.positions,
+            city:data.city
         })
+    },
+    async getCoffeeShops(context:any){
+        const responce = await fetch('https://coffee-app-fc81b-default-rtdb.europe-west1.firebasedatabase.app/shops.json');
+        const data = await responce.json();
+        console.log(data)
+        
+        const shops:any[] = [];
+        for(let one in data){
+            const item ={
+                address:data[one].address,
+                city:data[one].city,
+                email:data[one].email,
+                id:data[one].id,
+                name:data[one].name,
+                phone:data[one].phone,
+                positions:data[one].positions
+            };
+            shops.push(item)
+        };
+
+        if(!data){
+            throw new Error('The is no caffe')
+        }
+        console.log(shops)
+        
+        
+        context.commit('getShops', shops)
+        
     }
 }

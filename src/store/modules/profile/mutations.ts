@@ -13,6 +13,10 @@ export default{
         state.cafe.phone = payload.phone,
         state.cafe.id = payload.id,
         state.cafe.email = payload.email,
-        state.cafe.positions = payload.positions
+        state.cafe.positions = payload.positions,
+        state.cafe.city = payload.city
+    },
+    getShops(state:any, payload:any){
+        state.shops = payload
     }
 }

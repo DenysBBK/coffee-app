@@ -5,5 +5,8 @@ export default{
     },
     cafe(state:any){
         return state.cafe
+    },
+    shops(state:any){
+        return state.shops
     }
 }

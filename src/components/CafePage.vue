@@ -3,12 +3,13 @@
         <base-alert :show="showAlert" :alertType="typeOfAlert" >
             <p>{{ alertText }}</p>
         </base-alert>
-        <transition name="profile" mode="out-in" v-if="!profileUpdated">
             <form class='border-2 border-black rounded-lg p-10 bg-yellow-50'
             @submit.prevent="saveChanges" v-if="!profileUpdated">
                 <div class="flex pb-10 flex-col gap-y-3">
                         <label for="photo"><b>Add cafe logo</b></label>
-                        <input type="file" id="photo">  
+                        <input type="file" id="photo">
+                        <label for="city"><b>Enter city</b></label>
+                        <input class="w-1/2" type="text" id="city" v-model.trim="cafeCity" >  
                         <label for="place"><b>Enter Address</b></label>
                         <input class="w-1/2" type="text" id="place" v-model.trim="cafeAddress">
                         <label for="phone"><b>Contact Phone</b></label>
@@ -31,8 +32,6 @@
                     >Save</button>
                 </div>
             </form>
-        </transition>
-        <transition name="profile" mode="in-out" v-if="profileUpdated">
             <div v-if="profileUpdated" class='border-2 border-black rounded-lg p-10 bg-yellow-50'>
                 <div class="flex flex-col gap-y-5">
                     <div class="avatar rounded-full flex items-center justify-center">
@@ -40,6 +39,7 @@
                     </div>
                     <div>
                         <p><b>Cafe name:</b> {{ name }}</p>
+                        <p><b>City:</b> {{ cafeCity }}</p>
                         <p><b>Address:</b> {{ cafeAddress }}</p>
                         <p><b>Contact phone:</b> {{ phone }}</p>
                     </div>
@@ -52,7 +52,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="item in positions" :key="item.name">
+                        <tr v-for="(item, index) in positions" :key="index">
                             <td>{{ item.name }}</td>
                             <td>{{ item.price }}</td>
                         </tr>
@@ -66,7 +66,6 @@
                     </button>
                 </div>
             </div>
-        </transition>
     </div>
 </template>
 <script>
@@ -77,12 +76,13 @@ export default{
         return{
             name:'Aroma',
             cafeAddress:'',
+            cafeCity:'',
             phone:'',
             positions:[{
                 name:'',
                 price:''
             }],
-            profileUpdated:undefined
+            profileUpdated:false
         }
     },
     methods:{
@@ -99,6 +99,7 @@ export default{
         },
         async saveChanges(){
             const formData = {
+                city:this.cafeCity,
                 address:this.cafeAddress,
                 phone:this.phone,
                 positions:this.positions
@@ -122,7 +123,7 @@ export default{
             return this.$store.getters.cafe
         }
     },
-    async beforeCreate(){
+    async mounted(){
         try{
             await this.$store.dispatch('getCafeData');
             this.profileUpdated = true
@@ -130,31 +131,19 @@ export default{
             console.log(error)
         }
         this.phone = this.getCafeData.phone,
-        this.positions = this.getCafeData.positions,
+        // this.positions = this.getCafeData.positions,
         this.name = this.getCafeData.name,
         this.cafeAddress = this.getCafeData.address,
-        this.profileUpdated = true
+        this.cafeCity = this.getCafeData.city
+        if(this.getCafeData.positions){
+            this.positions = this.getCafeData.positions
+        } else{
+            this.positions = []
+        }
+        
     }
 }
 </script>
 <style scoped>
-.profile-enter-from{
-  opacity: 0;
-  transform: translateX(30px);
-}
-.profile-leave-to{
-  opacity: 0;
-  transform: translateX(-30px);
-}
-.profile-enter-active{
-  transition: all 0.3s ease-out;
-}
-.profile-leave-active{
-  transition: all 0.3s ease-in;
-}
-.profile-enter-to,
-.profile-leave-from{
-  opacity: 1;
-  transform: translateX(0);
-}
+
 </style>
