@@ -1,7 +1,15 @@
 <template>
     <div class='container mx-auto max-w-2xl px-2'>
-        <base-modal :show="openOrderModal" @close="closeModal">
-        {{ text }}
+        <base-alert :show="showAlert" :alertType="typeOfAlert" >
+            <p>{{ alertText }}</p>
+        </base-alert>
+        <base-modal 
+        :show="openOrderModal"
+        :id="id"
+        :positions="positions"
+        :name="shopName"
+        :address="address"
+        @close="closeModal">
         </base-modal>
         <div class='border-2 border-black rounded-lg p-10 bg-yellow-50'>
             <div class="flex flex-col gap-y-5">
@@ -21,7 +29,7 @@
                 </div>
                 <div class="flex flex-col gap-y-5" v-if="choosenShop">
                     <div>
-                        <p><b>Cafe name:</b> {{ this.name }}</p>
+                        <p><b>Cafe name:</b> {{ this.shopName }}</p>
                         <p><b>Contact phone:</b> {{ this.phone }}</p>
                     </div>
                     <p><b>Available positions:</b></p>
@@ -34,9 +42,9 @@
                         </thead>
                         <tbody>
                             <tr v-for="(item, index) in positions" :key="index">
-                            <td>{{ item.name }}</td>
-                            <td>{{ item.price }}</td>
-                        </tr>
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.price }} UAH</td>
+                            </tr>
                         </tbody>
                     </table>
                     <div class="flex justify-center">
@@ -52,21 +60,25 @@
     </div>
 </template>
 <script>
+import alertMixin from '../components/mixins/alert.js'
 export default{
+    mixins:[alertMixin],
     data(){
         return{
             coffeeShops:[],
             choosenCity:'',
             filteredShops:[],
             choosenShop:'',
-            name:'',
+            shopName:'',
             phone:'',
             positions:[{
                 name:'',
                 price:''
             }],
             openOrderModal:false,
-            text:'Hello my dear friend'
+            text:`Ordered menu`,
+            id:'',
+            address:''
         }
     },
     computed:{
@@ -82,16 +94,25 @@ export default{
         },
         chooseShop(){
             const shop = this.filteredShops.find(one => one.address == this.choosenShop);
-            this.name = shop.name;
+            this.shopName = shop.name;
             this.phone = shop.phone;
-            this.positions = shop.positions
+            this.positions = shop.positions;
+            this.address = shop.address
+            this.id = shop.id
+            console.log(this.name)
+            
         },
         makeOrder(){
             console.log('Make an order')
             this.openOrderModal = true
         },
         closeModal(){
-            this.openOrderModal = false
+            this.openOrderModal = false;
+            this.useAlert('success', 'Order created')
+            let id = localStorage.getItem('uid');
+            console.log(id)
+            
+            this.$router.replace(`/user-profile/${id}/history`)
         }
     },
     async mounted(){
