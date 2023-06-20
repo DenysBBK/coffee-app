@@ -73,6 +73,7 @@
 import alertMixin from '../components/mixins/alert.js'
 export default{
     mixins:[alertMixin],
+    
     data(){
         return{
             name:'',

@@ -66,10 +66,6 @@ export default{
         positions:{
           required:true
         },
-        id:{
-          required:true,
-          type:Number
-        }
     },
     emits: ['close'],
     data(){
@@ -84,10 +80,10 @@ export default{
     },
     methods:{
         closeModal(){
+          this.$emit('close', this.orderList)
           this.orderList = [];
           this.choosenItem = 'choose';
           this.total = 0
-            this.$emit('close')
         },
         addToOrderList(){
           this.orderList.push(this.choosenItem)

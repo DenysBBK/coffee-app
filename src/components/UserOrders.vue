@@ -5,7 +5,6 @@
         </base-alert>
         <base-modal 
         :show="openOrderModal"
-        :id="id"
         :positions="positions"
         :name="shopName"
         :address="address"
@@ -86,6 +85,9 @@ export default{
         const shops = [...new Set(this.$store.getters.shops)];
         return shops
        },
+       userData(){
+        return this.$store.getters.user
+       }
        
     },
     methods:{
@@ -99,24 +101,42 @@ export default{
             this.positions = shop.positions;
             this.address = shop.address
             this.id = shop.id
-            console.log(this.name)
             
         },
         makeOrder(){
             console.log('Make an order')
             this.openOrderModal = true
         },
-        closeModal(){
+        async closeModal(data){
             this.openOrderModal = false;
             this.useAlert('success', 'Order created')
-            let id = localStorage.getItem('uid');
-            console.log(id)
+            console.log(this.id)
             
+            try{
+                const orderData = {
+                    uid:localStorage.getItem('uid'),
+                    name:this.userData.name,
+                    positions:data,
+                    id:this.id
+                }
+                await this.$store.dispatch('postOrder', orderData)
+            }catch(error){
+                console.log(error)
+                
+            }
+            
+            
+            
+            
+
+            let id = localStorage.getItem('uid');
             this.$router.replace(`/user-profile/${id}/history`)
         }
     },
     async mounted(){
         this.choosenCity = 'choose'
+        
+        
         try{
             await this.$store.dispatch('getCoffeeShops')
             

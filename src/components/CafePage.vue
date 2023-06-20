@@ -102,7 +102,8 @@ export default{
                 city:this.cafeCity,
                 address:this.cafeAddress,
                 phone:this.phone,
-                positions:this.positions
+                positions:this.positions,
+                orders:[]
             }
             try{
                 await this.$store.dispatch('postCafe', formData);
@@ -124,6 +125,8 @@ export default{
         }
     },
     async mounted(){
+        console.log(this.$route)
+        
         try{
             await this.$store.dispatch('getCafeData');
             this.profileUpdated = true
@@ -141,7 +144,7 @@ export default{
             this.positions = []
         }
         
-    }
+    },
 }
 </script>
 <style scoped>

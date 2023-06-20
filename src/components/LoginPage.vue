@@ -78,27 +78,17 @@ export default{
                 type: this.toUserAccount ? 'users' : 'shops'
             }
             try{
-                await this.$store.dispatch('signIn', actionPayload);
-                this.useAlert('success', 'Successful login')
+                await this.$store.dispatch('signIn', actionPayload);    
                 console.log(this.uid)
-                
-                
-                
-                
-                actionPayload.type === 'users' ? this.$router.replace(`/user-profile/${this.uid}`) : this.$router.replace(`/cafe-profile/${this.uid}`)
-                
-                
+                actionPayload.type === 'users' ? this.$router.replace(`/user-profile/${this.uid}`) : this.$router.replace(`/cafe-profile/${this.uid}`) 
             }catch(error){
                 this.useAlert('error', error.message)
                 console.log(error.message)
             }
-            
             this.email = '';
             this.password = '';
             this.toShopAccount = false;
             this.toUserAccount = false
-            
-          
         }
     },
     computed:{
@@ -120,9 +110,7 @@ export default{
         },
         mounted(){
             document.title = 'Login'
-            
-            
-        }
+        },
     }
     
 

@@ -70,7 +70,8 @@ export default{
             address: payload.address,
             phone:payload.phone,
             positions:payload.positions,
-            city:payload.city
+            city:payload.city,
+            orders:payload.orders
         };
         const responce = await fetch(url,{
             method:"PUT",
@@ -99,8 +100,7 @@ export default{
     async getCoffeeShops(context:any){
         const responce = await fetch('https://coffee-app-fc81b-default-rtdb.europe-west1.firebasedatabase.app/shops.json');
         const data = await responce.json();
-        console.log(data)
-        
+
         const shops:any[] = [];
         for(let one in data){
             const item ={
@@ -114,14 +114,10 @@ export default{
             };
             shops.push(item)
         };
-
         if(!data){
             throw new Error('The is no caffe')
-        }
-        console.log(shops)
-        
-        
-        context.commit('getShops', shops)
-        
-    }
+        }   
+        context.commit('getShops', shops)      
+    },
+  
 }
