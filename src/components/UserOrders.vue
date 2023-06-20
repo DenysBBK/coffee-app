@@ -117,18 +117,14 @@ export default{
                     uid:localStorage.getItem('uid'),
                     name:this.userData.name,
                     positions:data,
-                    id:this.id
+                    id:this.id,
+                    shopName:this.shopName
                 }
                 await this.$store.dispatch('postOrder', orderData)
             }catch(error){
                 console.log(error)
                 
             }
-            
-            
-            
-            
-
             let id = localStorage.getItem('uid');
             this.$router.replace(`/user-profile/${id}/history`)
         }
