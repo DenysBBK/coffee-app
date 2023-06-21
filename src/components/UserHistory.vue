@@ -29,7 +29,9 @@ export default{
         }
     },
     async mounted(){
-        await this.$store.dispatch('getOrders', 'user')
+        await this.$store.dispatch('getOrders', 'user');
+        console.log('Hello!')
+        
     }
 }
 </script>
