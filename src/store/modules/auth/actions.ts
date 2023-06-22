@@ -104,7 +104,8 @@ export default{
         context.commit('setUser', {
             token: data.idToken,
             userId: data.localId,
-            uid:id
+            uid:id,
+            type:payload.type
         })
 
     },

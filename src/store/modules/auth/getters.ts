@@ -7,4 +7,7 @@ export default{
     isUserAuthenticated(state:any){
         return !!state.token
     },
+    type(state:any){
+        return state.type
+    }
 }

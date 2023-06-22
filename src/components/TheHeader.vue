@@ -20,9 +20,11 @@
         </div>
         <ul :class="showMenu ? 'flex' : 'hidden'"
             class=" flex-col mt-8  items-end md:flex  md:flex-row md:items-end gap-x-3 gap-y-2 md:mt-0">
-            <li class='rounded-full bg-yellow-200 py-2 px-3 text-center
+            <router-link :to="profilePath">
+                <li class='rounded-full bg-yellow-200 py-2 px-3 text-center
              hover:text-white hover:bg-yellow-400' v-if="isUserLoggedIn">Profile</li>
-            <router-link :to="this.$route.path + '/orders'">
+            </router-link>
+            <router-link :to="orderPath">
                 <li class='rounded-full bg-yellow-200 py-2 px-3 text-center
              hover:text-white hover:bg-yellow-400' v-if="isUserLoggedIn">Orders</li>
             </router-link>
@@ -66,11 +68,21 @@ export default{
     computed:{
     isUserLoggedIn(){
       return this.$store.getters.isUserAuthenticated
-      console.log(this.$store.getters.isUserAuthenticated)
-      
+      console.log(this.$store.getters.isUserAuthenticated) 
     },
     orderPath(){
-        
+        const orderType = this.userType == 'users' ? `/user-profile/${this.theId}/orders` : `/cafe-profile/${this.theId}/orders`
+        return orderType
+    },
+    profilePath(){
+        const profileType = this.userType == 'users' ? `/user-profile/${this.theId}` : `/cafe-profile/${this.theId}`
+        return profileType
+    },
+    userType(){
+        return this.$store.getters.type
+    },
+    theId(){
+        return this.$store.getters.uid
     }
     }
 }
