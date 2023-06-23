@@ -118,6 +118,8 @@ export default{
         },
         mounted(){
             document.title = 'Login'
+            console.log('Login')
+            
         },
     }
     
