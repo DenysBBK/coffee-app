@@ -9,6 +9,7 @@ import CafePage from '@/components/CafePage.vue';
 import UserOrders from '@/components/UserOrders.vue';
 import UserHistory from '@/components/UserHistory.vue';
 import CafeOrders from '@/components/CafeOrders.vue';
+import ActiveOrders from '@/components/ActiveOrders.vue'
 
 
 
@@ -23,6 +24,7 @@ const router = createRouter({
         { path: '/user-profile/:uid', component: UserPage, props:true,},
         { path: '/user-profile/:uid/history', component: UserHistory, props:true},
         { path: '/user-profile/:uid/orders', component:UserOrders,props:true},
+        { path: '/active-orders', component: ActiveOrders},
         { path: '/cafe-profile/:uid', component: CafePage, props:true},
         { path: '/cafe-profile/:uid/orders', component:CafeOrders, props:true}
   ]

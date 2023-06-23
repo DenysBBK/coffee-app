@@ -5,7 +5,7 @@
         </base-alert>
         <div class='border-2 border-black rounded-lg p-10 bg-yellow-50'>
             <h1 v-if="!ordersArr.length" class="text-center text-2xl font-bold pb-5">There is no orders</h1>
-            <h1 v-if="ordersArr.length" class="text-center text-2xl font-bold pb-5">Orders History</h1>
+            <h1 v-if="ordersArr.length" class="text-center text-2xl font-bold pb-5">Orders</h1>
             <div class="flex flex-col gap-y-3">
             <div class="flex justify-between border-2 border-black rounded-lg p-5 pt-5 bg-white" v-for="(item,index) in ordersArr" :key="index">
                 <p>{{ item.fromCafe }}</p>

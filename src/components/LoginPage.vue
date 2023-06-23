@@ -27,7 +27,7 @@
                 <label for="user" class='pl-2'>To user account</label>
             </div>
         </div>
-        <span v-if="checkValidator" class='text-red-500 pt-2'>Need to choose one option</span>
+        <span v-if="checkValidator" class='text-red-500 pt-2 text-xs'>Need to choose one option</span>
             <button @click="submitForm" class='rounded-full bg-white border-2 border-gray py-2 px-5 mt-5 center
              hover:text-white hover:bg-yellow-400 ' type="button" mode="flat"
              >Login</button>
@@ -78,10 +78,18 @@ export default{
                 type: this.toUserAccount ? 'users' : 'shops'
             }
             try{
+                this.isLoading = true
                 await this.$store.dispatch('signIn', actionPayload);    
                 console.log(this.uid)
-                actionPayload.type === 'users' ? this.$router.replace(`/user-profile/${this.uid}`) : this.$router.replace(`/cafe-profile/${this.uid}`) 
+                this.useAlert('success', 'Succesful login')
+                setTimeout(() => {
+                    this.isLoading = false
+                    actionPayload.type === 'users' ? this.$router.replace(`/user-profile/${this.uid}`) : this.$router.replace(`/cafe-profile/${this.uid}`)    
+                }, 2000);
+                
+                // actionPayload.type === 'users' ? this.$router.replace(`/user-profile`) : this.$router.replace(`/cafe-profile/${this.uid}`) 
             }catch(error){
+                this.isLoading = false
                 this.useAlert('error', error.message)
                 console.log(error.message)
             }

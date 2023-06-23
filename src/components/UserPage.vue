@@ -80,7 +80,8 @@ export default{
             phone:'',
             bank:'choose',
             cardNumber:'',
-            profileUpdated:false
+            profileUpdated:false,
+            
 
         }
     },
@@ -88,6 +89,10 @@ export default{
         updateProfile(){
             console.log('Update')
             this.profileUpdated = false
+            
+        },
+        alert(){
+            console.log('Alert!')
             
         },
         async saveChanges(){
@@ -122,20 +127,21 @@ export default{
         }
     },
     async mounted(){
-       await  this.$store.dispatch('getUserData')
-       if(this.getUserData.bank == '' && this.getUserData.card == '' && this.getUserData.phone == ''){
+        await  this.$store.dispatch('getUserData')
+        if(this.getUserData.bank == '' && this.getUserData.card == '' && this.getUserData.phone == ''){
             this.profileUpdated = false
-       } else if(!this.getUserData.bank && !this.getUserData.card && !this.getUserData.phone){
+        } else if(!this.getUserData.bank && !this.getUserData.card && !this.getUserData.phone){
             this.profileUpdated = false
-       } else{
-        this.name = this.getUserData.name;
-        this.bank = this.getUserData.bank;
-        this.cardNumber = this.getUserData.card;
-        this.phone = this.getUserData.phone;
-        this.profileUpdated = true
-       }
-       
-    }
+        } else{
+            this.name = this.getUserData.name;
+            this.bank = this.getUserData.bank;
+            this.cardNumber = this.getUserData.card;
+            this.phone = this.getUserData.phone;
+            this.profileUpdated = true
+        }
+        
+    },
+    
 }
 </script>
 <style scoped>
