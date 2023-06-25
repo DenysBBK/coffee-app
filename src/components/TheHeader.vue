@@ -24,7 +24,7 @@
                 <li class='rounded-full bg-yellow-200 py-2 px-3 text-center
              hover:text-white hover:bg-yellow-400' v-if="isUserLoggedIn">Profile</li>
             </router-link>
-            <router-link to="/active-orders">
+            <router-link to="/history">
                 <li class='rounded-full bg-yellow-200 py-2 px-3 text-center
              hover:text-white hover:bg-yellow-400' v-if="userType == 'users'">History</li>
             </router-link>
@@ -79,7 +79,7 @@ export default{
         return orderType
     },
     profilePath(){
-        const profileType = this.userType == 'users' ? `/user-profile/${this.theId}` : `/cafe-profile/${this.theId}`
+        const profileType = this.userType == 'users' ? `/user-profile` : `/cafe-profile`
         return profileType
     },
     userType(){

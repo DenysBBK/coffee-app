@@ -5,19 +5,19 @@
                 <div v-if="show" class='container mx-auto max-w-lg px-2' >
                     <div class='border-2 border-black rounded-lg p-10 bg-yellow-50'>
                           <div class="flex justify-end">
-                            <button type="button" @click="closeModal">✖️</button>
+                            <button type="button" @click="closeWithNoOrder">✖️</button>
                           </div>
                       <div class="flex flex-col content-center items-center gap-y-3 pb-3">
                           <h1 class="font-bold text-lg">{{ name }}</h1>
                           <h2>{{ address }}</h2>
                       </div>
                       <div class="pb-5">
-                          <p class="pb-3">Choose you coffee</p>
+                          <p class="pb-3 font-bold ">Choose you coffee</p>
                             <select v-model="choosenItem">
                               <option value="choose">Choose</option>
                               <option v-for="(one, index) in positions" :key="index" :value="{'name':one.name, 'price':one.price}">{{ one.name }}, {{ one.price }} UAH</option>
                             </select>
-                            <button type="button" @click="addToOrderList"><b>Add</b> ➕</button>
+                            <button type="button" @click="addToOrderList" class="pl-5"><b>Add</b> ➕</button>
                       </div>
                       <table>
                         <thead>
@@ -28,14 +28,14 @@
                         <tbody>
                           <tr v-for="(one, index) in orderList" :key="index">
                             <td>{{ one.name }} </td>
-                            <td class="pr-5">{{ one.price }} UAH</td>
+                            <td class="pr-5 ">{{ one.price }} UAH</td>
                             <td>
                               <button type="button" @click="removeFromOrderList(index)">✖️</button>
                             </td>
                           </tr>
                         </tbody>
                       </table>
-                      <p class="font-bold">Total price: {{ total}} UAH</p>
+                      <p class="font-bold pt-5">Total price: {{ total}} UAH</p>
                       <div class="flex items-center justify-center">
                       <button @click="approveOrder" type="button"
                     class='rounded-full bg-white border-2 border-gray py-2 px-5 mt-5 center
@@ -67,7 +67,7 @@ export default{
           required:true
         },
     },
-    emits: ['close'],
+    emits: ['close','closeNoOrder'],
     data(){
       return{
         orderList:[],
@@ -81,6 +81,12 @@ export default{
     methods:{
         closeModal(){
           this.$emit('close', this.orderList)
+          this.orderList = [];
+          this.choosenItem = 'choose';
+          this.total = 0
+        },
+        closeWithNoOrder(){
+          this.$emit('closeNoOrder')
           this.orderList = [];
           this.choosenItem = 'choose';
           this.total = 0

@@ -54,9 +54,9 @@
             </button>
         </div>  
         <div class="flex place-content-around">
-            <router-link :to="userHistory">
+            <router-link to="/active-orders">
                 <button class='rounded-full bg-white border-2 border-gray py-2 px-5 mt-5 center
-             hover:text-white hover:bg-yellow-400'>History &#x2192</button>
+             hover:text-white hover:bg-yellow-400'>Active orders &#x2192</button>
             </router-link>
             <router-link :to="userOrders">
                 <button class='rounded-full bg-white border-2 border-gray py-2 px-5 mt-5 center
@@ -114,10 +114,6 @@ export default{
 
     },
     computed:{
-        userHistory(){
-            let id = localStorage.getItem('uid')
-                return `/user-profile/${id}/history`
-        },
         userOrders(){
             let id = localStorage.getItem('uid')
                 return `/user-profile/${id}/orders`

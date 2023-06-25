@@ -21,11 +21,11 @@ const router = createRouter({
         { path: '/registration', component: SingUp },
         { path: '/terms', component: Terms },
         { path: '/privacy-policy', component: Privacy },
-        { path: '/user-profile/:uid', component: UserPage, props:true,},
-        { path: '/user-profile/:uid/history', component: UserHistory, props:true},
+        { path: '/user-profile', component: UserPage,},
+        { path: '/history', component: UserHistory},
         { path: '/user-profile/:uid/orders', component:UserOrders,props:true},
         { path: '/active-orders', component: ActiveOrders},
-        { path: '/cafe-profile/:uid', component: CafePage, props:true},
+        { path: '/cafe-profile', component: CafePage},
         { path: '/cafe-profile/:uid/orders', component:CafeOrders, props:true}
   ]
 });

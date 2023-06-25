@@ -15,15 +15,7 @@
                 </ul>
             </div>
             <div>
-                <p class="text-center border-2 rounded-full p-2"
-                :class="{
-                'bg-yellow-300' :item.status === 0,
-                'bg-orange-400' :item.status === 1,    
-                'bg-green-500' :item.status === 2, 
-                'bg-gray-300' : item.status === 3}">{{ status(item.status) }}</p>
-                <button type="button" @click="finishOrder(item,index)"
-                    class='rounded-full bg-white border-2 border-gray py-2 px-5 mt-5 center
-                    hover:text-white hover:bg-yellow-400 ' v-if="item.status === 2">Finish</button>
+                <p>{{ date(item.cafeId)}}</p>
             </div> 
             </div>
         </div>
@@ -40,37 +32,15 @@ export default{
         }
     },
     methods:{
-        status(item){
-            if(item === 0)return 'Pending';
-            if(item === 1)return 'Preparing';
-            if(item === 2)return 'Ready';
-            if(item === 3)return 'Finished'
-        },
-        async finishOrder(item, index){
-            this.ordersArr[index].status = 3
-            let findOrder = {
-                position:this.ordersArr[index].positionId,
-                cafe:this.ordersArr[index].cafeId}
-            console.log(findOrder);
-
-            
-           try{
-            await this.$store.dispatch('finishOrder', findOrder)
-               await this.$store.dispatch('getOrders', 'user');
-            //    this.ordersArr = this.$store.getters.orders
-           }catch(error){
-            console.log(error)
-            
-           }    
-           this.useAlert('success', 'Order is finished')     
-            console.log('Order is finished')
-            
+        date(date){
+            let dd = new Date(date)
+            return `${dd.getDate()}.${dd.getMonth()+1}.${dd.getFullYear()}`
         }
     },
     async mounted(){
         await this.$store.dispatch('getOrders', 'user');
         console.log('Hello!')
-        this.ordersArr = this.$store.getters.orders
+        this.ordersArr = this.$store.getters.orders.filter(one => one.status == 3)
         
         
     }

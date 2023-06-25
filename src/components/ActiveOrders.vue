@@ -5,7 +5,7 @@
         </base-alert>
         <div class='border-2 border-black rounded-lg p-10 bg-yellow-50'>
             <h1 v-if="!ordersArr.length" class="text-center text-2xl font-bold pb-5">There is no orders</h1>
-            <h1 v-if="ordersArr.length" class="text-center text-2xl font-bold pb-5">Orders</h1>
+            <h1 v-if="ordersArr.length" class="text-center text-2xl font-bold pb-5">Active orders</h1>
             <div class="flex flex-col gap-y-3">
             <div class="flex justify-between border-2 border-black rounded-lg p-5 pt-5 bg-white" v-for="(item,index) in ordersArr" :key="index">
                 <p>{{ item.fromCafe }}</p>
@@ -19,8 +19,7 @@
                 :class="{
                 'bg-yellow-300' :item.status === 0,
                 'bg-orange-400' :item.status === 1,    
-                'bg-green-500' :item.status === 2, 
-                'bg-gray-300' : item.status === 3}">{{ status(item.status) }}</p>
+                'bg-green-500' :item.status === 2, }">{{ status(item.status) }}</p>
                 <button type="button" @click="finishOrder(item,index)"
                     class='rounded-full bg-white border-2 border-gray py-2 px-5 mt-5 center
                     hover:text-white hover:bg-yellow-400 ' v-if="item.status === 2">Finish</button>
@@ -57,6 +56,7 @@ export default{
            try{
             await this.$store.dispatch('finishOrder', findOrder)
                await this.$store.dispatch('getOrders', 'user');
+               this.ordersArr = this.$store.getters.orders.filter(one => one.status !== 3)
             //    this.ordersArr = this.$store.getters.orders
            }catch(error){
             console.log(error)
@@ -70,7 +70,7 @@ export default{
     async mounted(){
         await this.$store.dispatch('getOrders', 'user');
         console.log('Hello!')
-        this.ordersArr = this.$store.getters.orders
+        this.ordersArr = this.$store.getters.orders.filter(one => one.status !== 3)
         
         
     }

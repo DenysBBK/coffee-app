@@ -8,7 +8,8 @@
         :positions="positions"
         :name="shopName"
         :address="address"
-        @close="closeModal">
+        @close="closeModal"
+        @closeNoOrder="noOrderClose">
         </base-modal>
         <div class='border-2 border-black rounded-lg p-10 bg-yellow-50'>
             <div class="flex flex-col gap-y-5">
@@ -107,6 +108,9 @@ export default{
             console.log('Make an order')
             this.openOrderModal = true
         },
+        noOrderClose(){
+            this.openOrderModal = false
+        },
         async closeModal(data){
             this.openOrderModal = false;
             this.useAlert('success', 'Order created')
@@ -126,7 +130,7 @@ export default{
                 
             }
             let id = localStorage.getItem('uid');
-            this.$router.replace(`/user-profile/${id}/history`)
+            this.$router.replace(`/active-orders`)
         }
     },
     async mounted(){

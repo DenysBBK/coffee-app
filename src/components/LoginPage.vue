@@ -84,7 +84,7 @@ export default{
                 this.useAlert('success', 'Succesful login')
                 setTimeout(() => {
                     this.isLoading = false
-                    actionPayload.type === 'users' ? this.$router.replace(`/user-profile/${this.uid}`) : this.$router.replace(`/cafe-profile/${this.uid}`)    
+                    actionPayload.type === 'users' ? this.$router.replace(`/user-profile`) : this.$router.replace(`/cafe-profile`)    
                 }, 2000);
                 
                 // actionPayload.type === 'users' ? this.$router.replace(`/user-profile`) : this.$router.replace(`/cafe-profile/${this.uid}`) 
