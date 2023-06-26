@@ -13,8 +13,8 @@
                       </div>
                       <div class="pb-5">
                           <p class="pb-3 font-bold ">Choose you coffee</p>
-                            <select v-model="choosenItem">
-                              <option value="choose">Choose</option>
+                            <select v-model="choosenItem" class="border-2 rounded-full p-2 text-left">
+                              <option value="choose">Choose position</option>
                               <option v-for="(one, index) in positions" :key="index" :value="{'name':one.name, 'price':one.price}">{{ one.name }}, {{ one.price }} UAH</option>
                             </select>
                             <button type="button" @click="addToOrderList" class="pl-5"><b>Add</b> ➕</button>
@@ -35,6 +35,7 @@
                           </tr>
                         </tbody>
                       </table>
+                      <p class="text-red-600 text-xs pt-3" v-if="isOrderListEmpty">Choose at least one position</p>
                       <p class="font-bold pt-5">Total price: {{ total}} UAH</p>
                       <div class="flex items-center justify-center">
                       <button @click="approveOrder" type="button"
@@ -75,11 +76,17 @@ export default{
           name:'',
           price:''
         },
-        total:0
+        total:0,
+        isOrderListEmpty:false
       }
     },
     methods:{
         closeModal(){
+          if(!this.orderList.length){
+            this.isOrderListEmpty = true;
+            return
+          }
+          this.isOrderListEmpty = false
           this.$emit('close', this.orderList)
           this.orderList = [];
           this.choosenItem = 'choose';
@@ -89,7 +96,8 @@ export default{
           this.$emit('closeNoOrder')
           this.orderList = [];
           this.choosenItem = 'choose';
-          this.total = 0
+          this.total = 0;
+          this.isOrderListEmpty = false
         },
         addToOrderList(){
           this.orderList.push(this.choosenItem)
@@ -108,9 +116,10 @@ export default{
           
         }
     },
-    computed:{
-      
+    mounted(){
+      this.choosenItem = 'choose'
     }
+
 }
 </script>
 <style scoped>
@@ -133,4 +142,5 @@ export default{
     opacity: 1;
     transform: scale(1);
   }
+
 </style>

@@ -125,6 +125,7 @@ export default{
         }
     },
     async mounted(){
+        document.title = 'Profile'
         console.log(this.$route)
         
         try{

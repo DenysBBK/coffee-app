@@ -38,6 +38,7 @@ export default{
         }
     },
     async mounted(){
+        document.title = 'History'
         let theType = this.type == 'users'?'user':'shop'
         await this.$store.dispatch('getOrders', theType);
         console.log('Hello!')

@@ -85,6 +85,7 @@ export default{
         },
     },
     async mounted(){
+        document.title = 'Orders'
         try{
             await this.$store.dispatch('getOrders', 'shop')
             console.log('Hello!');

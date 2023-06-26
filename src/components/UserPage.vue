@@ -123,6 +123,7 @@ export default{
         }
     },
     async mounted(){
+        document.title = 'Profile'
         await  this.$store.dispatch('getUserData')
         if(this.getUserData.bank == '' && this.getUserData.card == '' && this.getUserData.phone == ''){
             this.profileUpdated = false

@@ -1,3 +1,4 @@
+// @ts-ignore
 import { createRouter, createWebHistory } from 'vue-router'
 import Main from '@/components/MainPage.vue';
 import SingUp from '@/components/RegistrationPage.vue';
@@ -10,7 +11,7 @@ import UserOrders from '@/components/UserOrders.vue';
 import UserHistory from '@/components/UserHistory.vue';
 import CafeOrders from '@/components/CafeOrders.vue';
 import ActiveOrders from '@/components/ActiveOrders.vue'
-
+import store from '../store/index'
 
 
 const router = createRouter({
@@ -21,15 +22,21 @@ const router = createRouter({
         { path: '/registration', component: SingUp },
         { path: '/terms', component: Terms },
         { path: '/privacy-policy', component: Privacy },
-        { path: '/user-profile', component: UserPage,},
-        { path: '/history', component: UserHistory},
-        { path: '/order', component:UserOrders},
-        { path: '/active-orders', component: ActiveOrders},
-        { path: '/cafe-profile', component: CafePage},
-        { path: '/orders', component:CafeOrders}
+        { path: '/user-profile', component: UserPage, meta:{requiresAuth: true}},
+        { path: '/history', component: UserHistory,meta:{requiresAuth: true}},
+        { path: '/order', component:UserOrders, meta:{requiresAuth: true}},
+        { path: '/active-orders', component: ActiveOrders, meta:{requiresAuth: true}},
+        { path: '/cafe-profile', component: CafePage, meta:{requiresAuth: true}},
+        { path: '/orders', component:CafeOrders, meta:{requiresAuth: true}}
   ]
 });
 
-
+router.beforeEach(function(to, _, next){
+  if(to.meta.requiresAuth && !store.getters.isUserAuthenticated){
+    next('/login')
+  }else{
+    next()
+  }
+})
 
 export default router

@@ -70,6 +70,7 @@ export default{
         }
     },
     async mounted(){
+        document.title = 'Active orders'
         await this.$store.dispatch('getOrders', 'user');
         console.log('Hello!')
         this.ordersArr = this.$store.getters.orders.filter(one => one.status !== 3)

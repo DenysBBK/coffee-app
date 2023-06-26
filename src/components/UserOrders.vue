@@ -13,21 +13,21 @@
         </base-modal>
         <div class='border-2 border-black rounded-lg p-10 bg-yellow-50'>
             <div class="flex flex-col gap-y-5">
-                <div class="flex gap-x-5">
-                    <p><b>Choose the city</b></p>
-                    <select v-model="choosenCity" @change="chooseCity">
+                <div class="flex gap-x-5 items-center">
+                    <p ><b>Choose the city</b></p>
+                    <select v-model="choosenCity" @change="chooseCity" class="border-2 rounded-full p-2 text-left">
                         <option value="choose">Choose</option>
                         <option v-for="cafe in shops" :key="cafe.id" :value="cafe.city">{{ cafe.city }}</option>
                     </select>
                 </div>
-                <div class="flex gap-x-5">
+                <div class="flex gap-x-5 items-center">
                     <p><b>Choose the address</b></p>
-                    <select v-model="choosenShop" @change="chooseShop">
+                    <select v-model="choosenShop" @change="chooseShop" class="text-left border-2 rounded-full p-2">
                         <option value="choose">Choose</option>
                         <option v-for="one in filteredShops" :key="one.id">{{ one.address }}</option>
                     </select>
                 </div>
-                <div class="flex flex-col gap-y-5" v-if="choosenShop">
+                <div class="flex flex-col gap-y-5" v-if="choosenShop !== 'choose' && choosenCity !== 'choose'">
                     <div>
                         <p><b>Cafe name:</b> {{ this.shopName }}</p>
                         <p><b>Contact phone:</b> {{ this.phone }}</p>
@@ -36,7 +36,7 @@
                     <table>
                         <thead>
                             <tr>
-                                <td><b>Items</b></td>
+                                <td><b>Item</b></td>
                                 <td><b>Price</b></td>
                             </tr>
                         </thead>
@@ -134,7 +134,9 @@ export default{
         }
     },
     async mounted(){
+        document.title = 'Order'
         this.choosenCity = 'choose'
+        this.choosenShop = 'choose'
         
         
         try{
