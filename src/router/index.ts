@@ -23,10 +23,10 @@ const router = createRouter({
         { path: '/privacy-policy', component: Privacy },
         { path: '/user-profile', component: UserPage,},
         { path: '/history', component: UserHistory},
-        { path: '/user-profile/:uid/orders', component:UserOrders,props:true},
+        { path: '/order', component:UserOrders},
         { path: '/active-orders', component: ActiveOrders},
         { path: '/cafe-profile', component: CafePage},
-        { path: '/cafe-profile/:uid/orders', component:CafeOrders, props:true}
+        { path: '/orders', component:CafeOrders}
   ]
 });
 

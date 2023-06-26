@@ -101,11 +101,26 @@ export default{
             throw error
         }
         localStorage.setItem('token', data.idToken);
+        localStorage.setItem('localId', data.localId);
+        localStorage.setItem('type', payload.type)
         context.commit('setUser', {
             token: data.idToken,
             userId: data.localId,
             uid:id,
             type:payload.type
+        })
+
+    },
+    loginFromStorage(context:any){
+        const token = localStorage.getItem('token');
+        const userId = localStorage.getItem('userId');
+        const uid = localStorage.getItem('uid');
+        const type = localStorage.getItem('type');
+        context.commit('setUser', {
+            token: token,
+            userId: userId,
+            uid:uid,
+            type:type
         })
 
     },

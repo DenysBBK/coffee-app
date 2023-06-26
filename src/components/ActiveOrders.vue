@@ -49,12 +49,14 @@ export default{
             this.ordersArr[index].status = 3
             let findOrder = {
                 position:this.ordersArr[index].positionId,
-                cafe:this.ordersArr[index].cafeId}
+                placeId:this.ordersArr[index].cafeId,
+                status:3,
+                type:'users'}
             console.log(findOrder);
 
             
            try{
-            await this.$store.dispatch('finishOrder', findOrder)
+            await this.$store.dispatch('updateOrder', findOrder)
                await this.$store.dispatch('getOrders', 'user');
                this.ordersArr = this.$store.getters.orders.filter(one => one.status !== 3)
             //    this.ordersArr = this.$store.getters.orders

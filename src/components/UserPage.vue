@@ -116,7 +116,7 @@ export default{
     computed:{
         userOrders(){
             let id = localStorage.getItem('uid')
-                return `/user-profile/${id}/orders`
+                return `/order`
         },
         getUserData(){
             return this.$store.getters.user

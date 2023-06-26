@@ -10,7 +10,7 @@
 <the-footer></the-footer>
 </template>
 
-<script lang="ts">
+<script>
 import TheHeader from './components/TheHeader.vue';
 import TheFooter from './components/TheFooter.vue';
 export default{
@@ -23,7 +23,11 @@ export default{
       name:'Toliamba',
       surename:'sadsadsad'
     }
-  }
+  },
+  created(){
+    this.$store.dispatch('loginFromStorage')
+ 
+  },
 }
 </script>
 <style>

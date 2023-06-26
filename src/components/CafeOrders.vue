@@ -42,11 +42,39 @@ export default{
         }
     },
     methods:{
-        takeOrder(item,index){
+        async takeOrder(item,index){
             this.ordersArr[index].status = 1
+            let findOrder = {
+                position:this.ordersArr[index].positionId,
+                placeId:this.ordersArr[index].userId,
+                status:1,
+                type:'shops'
+            }
+            try{
+                await this.$store.dispatch('updateOrder', findOrder);
+                await this.$store.dispatch('getOrders', 'shop');
+                this.ordersArr = this.$store.getters.orders.filter(one => one.status !== 3)
+            }catch(error){
+                console.log(error)
+            }
+            this.useAlert('success', 'Order take in work') 
         },
-        finishOrder(item, index){
-            this.ordersArr[index].status = 2
+        async finishOrder(item, index){
+            this.ordersArr[index].status = 2;
+            let findOrder = {
+                position:this.ordersArr[index].positionId,
+                placeId:this.ordersArr[index].userId,
+                status:2,
+                type:'shops'
+            }
+            try{
+                await this.$store.dispatch('updateOrder', findOrder);
+                await this.$store.dispatch('getOrders', 'shop');
+                this.ordersArr = this.$store.getters.orders.filter(one => one.status !== 3)
+            }catch(error){
+                console.log(error)
+            }
+            this.useAlert('success', 'Order is ready') 
             
             
         },

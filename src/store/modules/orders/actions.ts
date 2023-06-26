@@ -74,9 +74,9 @@ export default{
             throw new Error('Cant male order');
         }        
     },
-    async finishOrder(_:any, payload:any){
+    async updateOrder(_:any, payload:any){
         const id = localStorage.getItem('uid')
-        const responce = await fetch(`https://coffee-app-fc81b-default-rtdb.europe-west1.firebasedatabase.app/users/${id}/orders/.json`);
+        const responce = await fetch(`https://coffee-app-fc81b-default-rtdb.europe-west1.firebasedatabase.app/${payload.type}/${id}/orders/.json`);
         const data = await responce.json();
         for(let one in data){
             
@@ -85,10 +85,10 @@ export default{
                 console.log(one)
                 const updatedData = {
                     ...data[one],
-                    status:3
+                    status:payload.status
                 }
                 console.log(updatedData)
-                const resp = await fetch(`https://coffee-app-fc81b-default-rtdb.europe-west1.firebasedatabase.app/users/${id}/orders/${one}.json`, {
+                const resp = await fetch(`https://coffee-app-fc81b-default-rtdb.europe-west1.firebasedatabase.app/${payload.type}/${id}/orders/${one}.json`, {
                     method:'PUT',
                     body:JSON.stringify(updatedData)
                 });
@@ -100,15 +100,16 @@ export default{
                 
             }
         }
-        const responce2 = await fetch(`https://coffee-app-fc81b-default-rtdb.europe-west1.firebasedatabase.app/shops/${payload.cafe}/orders/.json`)
+        let back = payload.type == 'users' ? 'shops':'users'
+        const responce2 = await fetch(`https://coffee-app-fc81b-default-rtdb.europe-west1.firebasedatabase.app/${back}/${payload.placeId}/orders/.json`)
         const data2 = await responce2.json();
         for(let one in data2){
             if(data2[one].positionId == payload.position){
                 const updatedData2 = {
                     ...data2[one],
-                    status:3
+                    status:payload.status
                 }
-                const resp2 = await fetch(`https://coffee-app-fc81b-default-rtdb.europe-west1.firebasedatabase.app/shops/${payload.cafe}/orders/${one}.json`,{
+                const resp2 = await fetch(`https://coffee-app-fc81b-default-rtdb.europe-west1.firebasedatabase.app/${back}/${payload.placeId}/orders/${one}.json`,{
                     method:'PUT',
                     body:JSON.stringify(updatedData2)
                 });

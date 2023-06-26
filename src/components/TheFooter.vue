@@ -1,6 +1,6 @@
 <template>
     <footer class="bg-green-600 flex flex-col items-center justify-center">
-  <div class="flex container items-center">
+  <div class="flex container items-center justify-center pt-3">
     <button class="py-2 px-4 bg-blue-500 text-white rounded-md mr-2">Button 1</button>
     <button class="py-2 px-4 bg-blue-500 text-white rounded-md mr-2">Button 2</button>
   </div>

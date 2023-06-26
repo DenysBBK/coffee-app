@@ -26,11 +26,11 @@
             </router-link>
             <router-link to="/history">
                 <li class='rounded-full bg-yellow-200 py-2 px-3 text-center
-             hover:text-white hover:bg-yellow-400' v-if="userType == 'users'">History</li>
+             hover:text-white hover:bg-yellow-400' v-if="isUserLoggedIn">History</li>
             </router-link>
             <router-link :to="orderPath">
                 <li class='rounded-full bg-yellow-200 py-2 px-3 text-center
-             hover:text-white hover:bg-yellow-400' v-if="isUserLoggedIn">Orders</li>
+             hover:text-white hover:bg-yellow-400' v-if="isUserLoggedIn">{{ orderType }}</li>
             </router-link>
             <router-link to="/login" v-if="!isUserLoggedIn">
                 <li class='rounded-full bg-yellow-200 py-2 px-3 text-center
@@ -75,7 +75,7 @@ export default{
       console.log(this.$store.getters.isUserAuthenticated) 
     },
     orderPath(){
-        const orderType = this.userType == 'users' ? `/user-profile/${this.theId}/orders` : `/cafe-profile/${this.theId}/orders`
+        const orderType = this.userType == 'users' ? `/order` : `/orders`
         return orderType
     },
     profilePath(){
@@ -87,6 +87,10 @@ export default{
     },
     theId(){
         return this.$store.getters.uid
+    },
+    orderType(){
+        let type = this.userType == 'users'? 'Order':'Orders';
+        return type
     }
     }
 }
