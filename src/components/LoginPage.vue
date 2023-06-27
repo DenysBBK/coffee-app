@@ -91,7 +91,7 @@ export default{
             }catch(error){
                 this.isLoading = false
                 this.useAlert('error', error.message)
-                console.log(error.message)
+                
             }
             this.email = '';
             this.password = '';

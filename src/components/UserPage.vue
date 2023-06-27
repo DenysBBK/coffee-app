@@ -124,7 +124,8 @@ export default{
     },
     async mounted(){
         document.title = 'Profile'
-        await  this.$store.dispatch('getUserData')
+        try{
+            await  this.$store.dispatch('getUserData')
         if(this.getUserData.bank == '' && this.getUserData.card == '' && this.getUserData.phone == ''){
             this.profileUpdated = false
         } else if(!this.getUserData.bank && !this.getUserData.card && !this.getUserData.phone){
@@ -135,6 +136,11 @@ export default{
             this.cardNumber = this.getUserData.card;
             this.phone = this.getUserData.phone;
             this.profileUpdated = true
+        }
+        
+
+        }catch(error){
+            this.useAlert('error', error.message)
         }
         
     },

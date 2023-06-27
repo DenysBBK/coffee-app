@@ -94,7 +94,7 @@ export default{
             
             
         }catch(error){
-            console.log(error)
+            this.useAlert('error', error.message)
             
         }
     }

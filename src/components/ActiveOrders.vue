@@ -4,7 +4,7 @@
             <p>{{ alertText }}</p>
         </base-alert>
         <div class='border-2 border-black rounded-lg p-10 bg-yellow-50'>
-            <h1 v-if="!ordersArr.length" class="text-center text-2xl font-bold pb-5">There is no orders</h1>
+            <h1 v-if="!ordersArr.length" class="text-center text-2xl font-bold pb-5">There is no active orders</h1>
             <h1 v-if="ordersArr.length" class="text-center text-2xl font-bold pb-5">Active orders</h1>
             <div class="flex flex-col gap-y-3">
             <div class="flex justify-between border-2 border-black rounded-lg p-5 pt-5 bg-white" v-for="(item,index) in ordersArr" :key="index">
@@ -61,7 +61,7 @@ export default{
                this.ordersArr = this.$store.getters.orders.filter(one => one.status !== 3)
             //    this.ordersArr = this.$store.getters.orders
            }catch(error){
-            console.log(error)
+            this.useAlert('error', error.message)
             
            }    
            this.useAlert('success', 'Order is finished')     

@@ -126,7 +126,7 @@ export default{
                 }
                 await this.$store.dispatch('postOrder', orderData)
             }catch(error){
-                console.log(error)
+                this.useAlert('error', error.message)
                 
             }
             let id = localStorage.getItem('uid');

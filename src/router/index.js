@@ -11,6 +11,7 @@ import UserOrders from '@/components/UserOrders.vue';
 import UserHistory from '@/components/UserHistory.vue';
 import CafeOrders from '@/components/CafeOrders.vue';
 import ActiveOrders from '@/components/ActiveOrders.vue'
+import NotFound from '@/components/NotFound.vue'
 import store from '../store/index'
 
 
@@ -27,7 +28,8 @@ const router = createRouter({
         { path: '/order', component:UserOrders, meta:{requiresAuth: true}},
         { path: '/active-orders', component: ActiveOrders, meta:{requiresAuth: true}},
         { path: '/cafe-profile', component: CafePage, meta:{requiresAuth: true}},
-        { path: '/orders', component:CafeOrders, meta:{requiresAuth: true}}
+        { path: '/orders', component:CafeOrders, meta:{requiresAuth: true}},
+        { path: '/:notFound(.*)', component:NotFound}
   ]
 });
 

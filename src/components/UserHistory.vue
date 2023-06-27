@@ -1,5 +1,8 @@
 <template>
     <div class='container mx-auto max-w-5xl px-2'>
+        <base-alert :show="showAlert" :alertType="typeOfAlert" >
+            <p>{{ alertText }}</p>
+        </base-alert>
         <div class='border-2 border-black rounded-lg p-10 bg-yellow-50'>
             <h1 v-if="!ordersArr.length" class="text-center text-2xl font-bold pb-5">There is no orders</h1>
             <h1 v-if="ordersArr.length" class="text-center text-2xl font-bold pb-5">Orders History</h1>
@@ -20,7 +23,9 @@
     </div>
 </template>
 <script>
-export default{   
+import alertMixin from '../components/mixins/alert.js'
+export default{ 
+    mixins:[alertMixin],  
     data(){
         return{
             ordersArr:[]
@@ -40,8 +45,11 @@ export default{
     async mounted(){
         document.title = 'History'
         let theType = this.type == 'users'?'user':'shop'
-        await this.$store.dispatch('getOrders', theType);
-        console.log('Hello!')
+        try{
+            await this.$store.dispatch('getOrders', theType);
+        }catch(error){
+            this.useAlert('error', error.message)
+        }
         this.ordersArr = this.$store.getters.orders.filter(one => one.status == 3)
         
         

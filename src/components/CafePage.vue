@@ -132,7 +132,7 @@ export default{
             await this.$store.dispatch('getCafeData');
             this.profileUpdated = true
         }catch(error){
-            console.log(error)
+            this.useAlert('error', error.message)
         }
         this.phone = this.getCafeData.phone,
         // this.positions = this.getCafeData.positions,
