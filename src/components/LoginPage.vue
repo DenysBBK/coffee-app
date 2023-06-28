@@ -14,7 +14,12 @@
             </div>
             <div class='flex flex-col pt-3'>
                 <label for="password" class='text-center'>Password</label>
-                <input type="password" id="password"  class='mt-2' v-model.trim="password">
+                <div class="flex gap-x-2 pl-7">
+                    <input v-if="!isPassOpen" type="text" id="password"  class='mt-2' v-model.trim="password">
+                    <img @click="swithBtnPassVis" v-if="!isPassOpen" src = '../../images/eye-open.png' class='max-w-50 max-h-5 self-end'>
+                    <input type="password" id="password"  class='mt-2' v-model.trim="password" v-if="isPassOpen">
+                    <img @click="swithBtnPassVis" v-if="isPassOpen" src = '../../images/eye-closed.png' class='max-w-50 max-h-5 self-end'>
+                </div>
                 <p class="text-red-600 text-xs" v-if="isPasswordValid">Password must be not empty</p>
             </div>
             <div>
@@ -49,7 +54,8 @@ export default{
             isShow: false,
             isLoading:false,
             isEmailValid:false,
-            isPasswordValid:false,  
+            isPasswordValid:false,
+            isPassOpen:false,  
         }
     },
     methods:{
@@ -97,7 +103,10 @@ export default{
             this.password = '';
             this.toShopAccount = false;
             this.toUserAccount = false
-        }
+        },
+        swithBtnPassVis(){
+            this.isPassOpen = !this.isPassOpen
+        },
     },
     computed:{
             uid(){

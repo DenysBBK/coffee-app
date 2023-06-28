@@ -17,33 +17,38 @@
             <base-spinner :showSpinner="isLoading"></base-spinner> 
             <div v-if="role == 'shops'" class='flex flex-col pt-10'>
                 <label for="shop" class='text-center'>Cafe name</label>
-                <input type="text" id="shop" v-model.trim="coffeeShopName" class='mt-2 pl-1 rounded-md' >
+                <input @blur="clearValidator('coffeeShopName')" type="text" id="shop" v-model.trim="coffeeShopName.value" class='mt-2 pl-1 rounded-md' >
+                <p class="text-red-600 text-xs" v-if="!coffeeShopName.isValid">Name must be not empty</p>
             </div>
             <div v-if="role == 'users'" class='flex flex-col pt-10'>
                 <label for="name" class='text-center'>Your name</label>
-                <input type="text" id="name" v-model.trim="userName" class='mt-2 pl-1 rounded-md'>
+                <input @blur="clearValidator('userName')" type="text" id="name" v-model.trim="userName.value" class='mt-2 pl-1 rounded-md'>
+                <p class="text-red-600 text-xs" v-if="!userName.isValid">Name must be not empty</p>
             </div>
             <div class='flex flex-col pt-3'>
                 <label for="email" class='text-center'>Email</label>
-                <input type="email" id="email" v-model.trim="email" class='mt-2 pl-1 rounded-md'>
+                <input @blur="clearValidator('email')" type="email" id="email" v-model.trim="email.value" class='mt-2 pl-1 rounded-md'>
+                <p class="text-red-600 text-xs" v-if="!email.isValid">Email must be not empty</p>
             </div>
             <div class='flex flex-col pt-3 ml-6'>
                 <label for="password" class='text-center'>Password</label>
                 <div class="flex gap-x-2">
-                    <input v-if="!isPassOpen" type="password" id="password" v-model.trim="password" class='mt-2 pl-1 rounded-md'>
+                    <input @blur="clearValidator('password')" v-if="!isPassOpen" type="password" id="password" v-model.trim="password.value" class='mt-2 pl-1 rounded-md'>
                     <img @click="swithBtnPassVis" v-if="!isPassOpen" src = '../../images/eye-open.png' class='max-w-50 max-h-5 self-end'>
-                    <input v-if="isPassOpen" type="text" id="password" v-model.trim="password" class='mt-2 pl-1 rounded-md'>
+                    <input @blur="clearValidator('password')" v-if="isPassOpen" type="text" id="password" v-model.trim="password.value" class='mt-2 pl-1 rounded-md'>
                     <img @click="swithBtnPassVis" v-if="isPassOpen" src = '../../images/eye-closed.png' class='max-w-50 max-h-5 self-end'>
                 </div>
+                <p class="text-red-600 text-xs" v-if="!password.isValid">At least 6 characters</p>
             </div>
             <div class='flex flex-col pt-3 ml-6'>
                 <label for="confirm" class='text-center'>Confirm password</label>
                 <div class="flex gap-x-2">
-                    <input v-if="!isPassConfOpen" type="password" id="confirm" v-model.trim="confirmPassword" class='mt-2 pl-1 rounded-md'>
+                    <input @blur="clearValidator('confirmPassword')" v-if="!isPassConfOpen" type="password" id="confirm" v-model.trim="confirmPassword.value" class='mt-2 pl-1 rounded-md'>
                     <img @click="swithBtnPassConfVis" v-if="!isPassConfOpen" src = '../../images/eye-open.png' class='max-w-50 max-h-5 self-end'>
-                    <input v-if="isPassConfOpen" type="text" id="confirm" v-model.trim="confirmPassword" class='mt-2 pl-1 rounded-md'>
+                    <input @blur="clearValidator('confirmPassword')" v-if="isPassConfOpen" type="text" id="confirm" v-model.trim="confirmPassword.value" class='mt-2 pl-1 rounded-md'>
                     <img @click="swithBtnPassConfVis" v-if="isPassConfOpen" src = '../../images/eye-closed.png' class='max-w-50 max-h-5 self-end'>
                 </div>
+                <p class="text-red-600 text-xs" v-if="!confirmPassword.isValid">Field should match Password</p>
             </div>
             <div class='pt-5 flex mx-20'>
                 <input type="checkbox" id="confirmTerms" v-model="checkedTerms" class='ml-10'>
@@ -51,8 +56,8 @@
                     I agree to <router-link to="/terms" class='text-blue-600' target="_blank" rel="noopener noreferrer">Terms of Service</router-link>
                      and <router-link to="/privacy-policy" class='text-blue-600' target="_blank" rel="noopener noreferrer">Privacy Policy</router-link> 
             </p>
-            <p class='text-red-600' v-if="termsValidator">You need to agree with terms</p>
-            </div>
+        </div>
+        <p class='text-red-600 text-xs' v-if="termsValidator">You need to agree with terms</p>
             <button @click="submitForm" class='rounded-full bg-white border-2 border-gray py-2 px-5 mt-5
              hover:text-white hover:bg-yellow-400 ' type="button" mode="flat"
              >Registration</button>
@@ -69,11 +74,26 @@ export default{
     data(){
         return{
             role:'users',
-            userName:'',
-            coffeeShopName:'',
-            email:'',
-            password:'',
-            confirmPassword:'',
+            userName:{
+                value:'',
+                isValid:true
+            },
+            coffeeShopName:{
+                value:'',
+                isValid:true
+            },
+            email:{
+                value:'',
+                isValid:true
+            },
+            password:{
+                value:'',
+                isValid:true
+            },
+            confirmPassword:{
+                value:'',
+                isValid:true
+            },
             checkedTerms:false,
             isLoading:false,
             isPassOpen:false,
@@ -87,27 +107,52 @@ export default{
             if(!this.checkedTerms){
                 this.termsValidator = true
                 return
-            }
+            };
+           if(this.userName.value === '' && this.role === 'users'){
+                this.userName.isValid = false;
+                return
+           }
+           if(this.coffeeShopName.value === '' && this.role !== 'users'){
+            this.coffeeShopName.isValid = false
+            return
+           }
+           if(this.email.value === ''){
+            this.email.isValid = false;
+            return
+           }
+           if(this.password.value.length < 6){
+            this.password.isValid = false;
+            return
+           }
+           if(this.password.value !== this.confirmPassword.value){
+            this.confirmPassword.isValid = false;
+            return
+           }
             this.isLoading = true
             const actionPayload = {
-                email:this.email,
-                password:this.password,
+                email:this.email.value,
+                password:this.password.value,
                 type:this.role,
-                name:this.role === 'users'? this.userName:this.coffeeShopName
+                name:this.role === 'users'? this.userName.value:this.coffeeShopName.value
             }
             try{
                 await this.$store.dispatch('signup', actionPayload)
-                await this.useAlert('success', 'Successful registration')
+                this.useAlert('success', 'Successful registration')
             }catch(err){
-               await this.useAlert('error', err.message )
+               this.useAlert('error', err.message )
             }
             this.isLoading = false
-           this.userName = '';
-           this.email = '';
-           this.password = '';
-           this.confirmPassword = '';
-           this.coffeeShopName = '';
+           this.userName.value = '';
+           this.email.value = '';
+           this.password.value = '';
+           this.confirmPassword.value = '';
+           this.coffeeShopName.value = '';
            this.checkedTerms = false
+           this.userName.isValid = true
+           this.email.isValid = true
+           this.confirmPassword.isValid = true
+           this.coffeeShopName.isValid = true
+           
         },
         swithToUser(){
             this.role = 'users' 
@@ -122,6 +167,9 @@ export default{
         },
         swithBtnPassConfVis(){
             this.isPassConfOpen = !this.isPassConfOpen
+        },
+        clearValidator(input){
+            this[input].isValid = true
         }
     },
     mounted(){

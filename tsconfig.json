@@ -1,7 +1,7 @@
 {
   "extends": "@vue/tsconfig/tsconfig.web.json",
   "include": ["env.d.ts", "src/**/*", "./**/*", "src/**/*.vue"],
-  "exclude": ["./built/**/*",],
+  "exclude": ["./built/**/*"],
   "compilerOptions": {
     "allowJs": true,
     "ignoreDeprecations": "5.0",
