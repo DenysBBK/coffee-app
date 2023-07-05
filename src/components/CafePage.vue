@@ -9,18 +9,18 @@
                         <label for="photo"><b>Add cafe logo</b></label>
                         <input type="file" id="photo">
                         <label for="city"><b>Enter city</b></label>
-                        <input class="w-1/2" type="text" id="city" v-model.trim="cafeCity" >  
+                        <input class="w-1/2 pl-1" type="text" id="city" v-model.trim="cafeCity" >  
                         <label for="place"><b>Enter Address</b></label>
-                        <input class="w-1/2" type="text" id="place" v-model.trim="cafeAddress">
+                        <input class="w-1/2 pl-1" type="text" id="place" v-model.trim="cafeAddress">
                         <label for="phone"><b>Contact Phone</b></label>
-                        <input class="w-1/2" type="text" id="phone" v-model.trim="phone">
+                        <input class="w-1/2 pl-1" type="text" id="phone" v-model.trim="phone">
                         <div>
                             <button type="button" @click="addPosition"><b>Add position</b> ➕</button>
                             <div class="flex gap-x-2 pb-2" v-for="(item, index) in positions" :key="index">
                                 <label :for="'pos'+index"><b>Item</b></label>
-                                <input type="text" :id="'pos'+index" v-model="item.name">
+                                <input type="text" :id="'pos'+index" class="pl-1" v-model="item.name">
                                 <label :for="'price'+index"><b>Price</b></label>
-                                <input class="w-10" type="text" :id="'price'+index" v-model="item.price">
+                                <input class="w-10 pl-1" type="text" :id="'price'+index" v-model="item.price">
                                 <button type="button" @click="deletePosition(index)">✖️</button>
                             </div>
                         </div>
@@ -87,12 +87,10 @@ export default{
     },
     methods:{
         addPosition(){
-            console.log('Adde new position');
             this.positions.push({
                 name:'',
                 price:''
             })
-            console.log(this.positions) 
         },
         deletePosition(index){       
             this.positions.splice(index, 1)  
@@ -115,7 +113,6 @@ export default{
             this.useAlert('success', 'Changes saved') 
         },
         updateProfile(){
-            console.log('Update')
             this.profileUpdated = false
         },
     },
@@ -126,7 +123,6 @@ export default{
     },
     async mounted(){
         document.title = 'Profile'
-        console.log(this.$route)
         
         try{
             await this.$store.dispatch('getCafeData');

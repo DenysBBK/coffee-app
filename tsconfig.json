@@ -1,11 +1,15 @@
 {
   "extends": "@vue/tsconfig/tsconfig.web.json",
   "include": ["env.d.ts", "src/**/*", "./**/*", "src/**/*.vue"],
-  "exclude": ["./built/**/*"],
+  "exclude": ["./built/**/*", "postcss.config.js", "build/**/*", ".src/components/mixins/alert.js"],
   "compilerOptions": {
-    "allowJs": true,
     "ignoreDeprecations": "5.0",
     "baseUrl": ".",
+    "allowJs": true,
+    "outDir": "./dist",
+    "importsNotUsedAsValues": "remove",
+    "preserveValueImports": false,
+    "isolatedModules": false,
     "paths": {
       "@/*": ["./src/*"]
     }

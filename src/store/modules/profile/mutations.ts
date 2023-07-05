@@ -1,5 +1,8 @@
+import { profileState } from "./profileTypes"
+
+
 export default{
-    getUser(state:any, payload:any){
+    getUser(state:profileState, payload:any){
         state.user.bank = payload.bank,
         state.user.card = payload.card,
         state.user.email = payload.email,
@@ -7,7 +10,7 @@ export default{
         state.user.name = payload.name,
         state.user.phone = payload.phone
     },
-    getCafe(state:any, payload:any){
+    getCafe(state:profileState, payload:any){
         state.cafe.address = payload.address,
         state.cafe.name = payload.name,
         state.cafe.phone = payload.phone,
@@ -16,7 +19,7 @@ export default{
         state.cafe.positions = payload.positions,
         state.cafe.city = payload.city
     },
-    getShops(state:any, payload:any){
+    getShops(state:profileState, payload:any){
         state.shops = payload
     }
 }

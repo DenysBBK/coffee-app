@@ -1,7 +1,12 @@
+import { RootStoreState } from "../types";
+import { ActionContext } from "vuex";
+import { ordersState, orderPayload,ordersArr, userOrderItem, cafeOrderItem, userOrderData,updatedOrder} from "./ordersTypes";
+
+
 export default{
-    async getOrders(context:any, payload:any){
-        const type = payload == 'user' ? 'users':'shops'
-        const id = localStorage.getItem('uid')
+    async getOrders(context:ActionContext<ordersState, RootStoreState>, payload:orderPayload):Promise<void>{
+        const type:string = payload == 'user' ? 'users':'shops'
+        const id:string|null = localStorage.getItem('uid')
         const responce = await fetch(`https://coffee-app-fc81b-default-rtdb.europe-west1.firebasedatabase.app/${type}/${id}/orders.json`);
         const data = await responce.json();
 
@@ -9,10 +14,10 @@ export default{
             console.log('No orders')
             
         }
-        const orders = []
+        const orders:ordersArr[] = []
         if(payload == 'user'){
             for(let one in data){
-                let item = {
+                let item:userOrderItem = {
                     fromCafe:data[one].fromCafe,
                     positionId:data[one].positionId,
                     status:data[one].status,
@@ -25,7 +30,7 @@ export default{
             }        
         }else{
             for(let one in data){
-                let item = {
+                let item:cafeOrderItem = {
                     status:data[one].status,
                     positions:data[one].orderPositions,
                     userId:data[one].userId,
@@ -36,13 +41,14 @@ export default{
             }
             
         }
-
+       
+        
         context.commit('ordersData', orders)
         
         
     },
-    async postOrder(context:any, payload:any){
-        let posId = new Date().getTime()
+    async postOrder(_:ActionContext<ordersState, RootStoreState>, payload:userOrderData):Promise<void>{
+        let posId:number = new Date().getTime()
         const responce = await fetch(`https://coffee-app-fc81b-default-rtdb.europe-west1.firebasedatabase.app/shops/${payload.id}/orders/.json`,{
             method:'POST',
             body:JSON.stringify({
@@ -74,7 +80,7 @@ export default{
             throw new Error('Cant male order');
         }        
     },
-    async updateOrder(_:any, payload:any){
+    async updateOrder(_:ActionContext<ordersState, RootStoreState>, payload:updatedOrder):Promise<void>{
         const id = localStorage.getItem('uid')
         const responce = await fetch(`https://coffee-app-fc81b-default-rtdb.europe-west1.firebasedatabase.app/${payload.type}/${id}/orders/.json`);
         const data = await responce.json();
@@ -87,7 +93,7 @@ export default{
                     ...data[one],
                     status:payload.status
                 }
-                console.log(updatedData)
+                
                 const resp = await fetch(`https://coffee-app-fc81b-default-rtdb.europe-west1.firebasedatabase.app/${payload.type}/${id}/orders/${one}.json`, {
                     method:'PUT',
                     body:JSON.stringify(updatedData)
@@ -100,7 +106,7 @@ export default{
                 
             }
         }
-        let back = payload.type == 'users' ? 'shops':'users'
+        let back:string = payload.type == 'users' ? 'shops':'users'
         const responce2 = await fetch(`https://coffee-app-fc81b-default-rtdb.europe-west1.firebasedatabase.app/${back}/${payload.placeId}/orders/.json`)
         const data2 = await responce2.json();
         for(let one in data2){

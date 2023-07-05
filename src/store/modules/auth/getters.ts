@@ -1,13 +1,13 @@
-
+import {authState} from "./authTypes"
 
 export default{
-    uid(state:any){
+    uid(state:authState):string{
         return state.uid
     },
-    isUserAuthenticated(state:any){
+    isUserAuthenticated(state:authState):boolean{
         return !!state.token
     },
-    type(state:any){
+    type(state:authState):string{
         return state.type
     }
 }

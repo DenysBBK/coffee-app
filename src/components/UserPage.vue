@@ -13,7 +13,7 @@
                 </div>
                 <div class="flex flex-col gap-y-2">
                     <label for="phone">Phone</label>
-                    <input type="tel" id="phone" v-model.trim="phone">
+                    <input type="tel" id="phone" class="pl-1" v-model.trim="phone">
                     <label for="bank">Choose you bank</label>
                     <select id="bank" v-model="bank">
                         <option value="choose">Choose</option>
@@ -23,7 +23,7 @@
                         <option value="Pumb">Pumb</option>
                     </select>
                     <label for="card">Card number</label>
-                    <input type="text" id="card" v-model="cardNumber">
+                    <input type="text" id="card" class="pl-1" v-model="cardNumber">
                 </div> 
             </div>
             <div class="flex justify-center">
@@ -87,16 +87,10 @@ export default{
     },
     methods:{
         updateProfile(){
-            console.log('Update')
             this.profileUpdated = false
             
         },
-        alert(){
-            console.log('Alert!')
-            
-        },
         async saveChanges(){
-            console.log('Saved')
             const formData = {
                 phone:this.phone,
                 bank:this.bank,
@@ -115,7 +109,6 @@ export default{
     },
     computed:{
         userOrders(){
-            let id = localStorage.getItem('uid')
                 return `/order`
         },
         getUserData(){

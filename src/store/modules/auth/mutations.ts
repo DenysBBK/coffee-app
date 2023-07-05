@@ -1,12 +1,8 @@
-interface userData{
-    token:string,
-    userId:string
-    uid:string,
-    type:string
-}
+import type {authState, userData} from "./authTypes"
+
 
 export default{
-    setUser(state:any, payload:userData){
+    setUser(state:authState, payload:userData){
         state.token = payload.token;
         state.userId = payload.userId;
         state.uid = payload.uid;

@@ -1,5 +1,7 @@
+import { ordersState } from "./ordersTypes"
+
 export default{
-    orders(state:any){
+    orders(state:ordersState):any[]{
         return state.orders
     }
 }

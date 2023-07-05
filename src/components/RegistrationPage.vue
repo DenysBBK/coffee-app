@@ -156,11 +156,9 @@ export default{
         },
         swithToUser(){
             this.role = 'users' 
-            console.log(this.role)
         },
         swithToShop(){
             this.role = 'shops'
-            console.log(this.role) 
         },
         swithBtnPassVis(){
             this.isPassOpen = !this.isPassOpen

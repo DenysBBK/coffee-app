@@ -50,6 +50,7 @@ export default{
                 status:1,
                 type:'shops'
             }
+            
             try{
                 await this.$store.dispatch('updateOrder', findOrder);
                 await this.$store.dispatch('getOrders', 'shop');
@@ -88,9 +89,7 @@ export default{
         document.title = 'Orders'
         try{
             await this.$store.dispatch('getOrders', 'shop')
-            console.log('Hello!');
             this.ordersArr = this.$store.getters.orders.filter(one => one.status !== 3)
-            console.log(this.ordersArr)
             
             
         }catch(error){

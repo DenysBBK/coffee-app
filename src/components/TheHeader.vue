@@ -72,7 +72,6 @@ export default{
     computed:{
     isUserLoggedIn(){
       return this.$store.getters.isUserAuthenticated
-      console.log(this.$store.getters.isUserAuthenticated) 
     },
     orderPath(){
         const orderType = this.userType == 'users' ? `/order` : `/orders`

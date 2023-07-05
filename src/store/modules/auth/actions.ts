@@ -1,25 +1,11 @@
-interface SighUpData {
-    email:string,
-    password:string,
-    type:string,
-    name:string
-};
-interface SignInData{
-    email:string,
-    password:string,
-    returnSecureToken:boolean,
-    type:string
-}
-interface Item{
-    email:string,
-    id:string
-}
-
+import { SighUpData, SignInData, Item, authState } from "./authTypes"
+import { ActionContext } from "vuex"
+import { RootStoreState } from "../types"
 
 export default{
-    async signup(context:any, payload:SighUpData){
-        const theId = new Date().getTime()
-        const respTable:any = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCn1i-L0RTLONbk82ySwxsEkqvxfJkokqI`,{
+    async signup(_:ActionContext<authState, RootStoreState>, payload:SighUpData):Promise<void>{
+        const theId: number = new Date().getTime()
+        const respTable= await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCn1i-L0RTLONbk82ySwxsEkqvxfJkokqI`,{
             method:"POST",
             body:JSON.stringify({
                 email:payload.email,
@@ -39,7 +25,7 @@ export default{
             const error = new Error(dataTable.error.message === "EMAIL_EXISTS" ? `${userOrCafe} is already exsist` : errorKey)
         throw error
         }else{
-            const mode = payload.type;
+            const mode:string = payload.type;
             const responce:any = await fetch(`https://coffee-app-fc81b-default-rtdb.europe-west1.firebasedatabase.app/${mode}/${theId}.json`,{
             method: "PUT",
             body:JSON.stringify({
@@ -57,18 +43,18 @@ export default{
         },
 
 
-    async signIn(context:any, payload:SignInData){
-        const type = payload.type
+    async signIn(context:ActionContext<authState, RootStoreState>, payload:SignInData):Promise<void>{
+        const type:string = payload.type
         const resp = await fetch(`https://coffee-app-fc81b-default-rtdb.europe-west1.firebasedatabase.app/${type}.json`)
-        const theData:any = await resp.json();
-        const dataResult = []
+        const theData:Item[] = await resp.json();
+        const dataResult:Item[] = []
         for(const key in theData){
             const oneItem:Item = {
                 email:theData[key].email,
                 id:theData[key].id
             }
             dataResult.push(oneItem)
-            console.log(dataResult)
+           
             
         };
         const theType:string = payload.type === 'users'? 'User':'Cafe'
@@ -76,7 +62,7 @@ export default{
         if(!isAnyFound){
             throw new Error(`${theType} is not found`)
         };
-        let id;
+        let id:string|undefined;
         dataResult.map(one => {
             if(one.email === payload.email){
                 id = one.id
@@ -111,8 +97,8 @@ export default{
         })
 
     },
-    loginFromStorage(context:any){
-        const token = localStorage.getItem('token');
+    loginFromStorage(context:ActionContext<authState, RootStoreState>):void{
+        const token:string|null = localStorage.getItem('token');
         const userId = localStorage.getItem('userId');
         const uid = localStorage.getItem('uid');
         const type = localStorage.getItem('type');
@@ -124,7 +110,7 @@ export default{
         })
 
     },
-    logout(context:any){
+    logout(context:ActionContext<authState, RootStoreState>):void{
         localStorage.removeItem('uid');
         localStorage.removeItem('token');
 

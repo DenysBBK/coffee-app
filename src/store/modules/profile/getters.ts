@@ -1,12 +1,13 @@
+import { profileState } from "./profileTypes"
 
 export default{
-    user(state:any){
+    user(state:profileState){
         return state.user
     },
-    cafe(state:any){
+    cafe(state:profileState){
         return state.cafe
     },
-    shops(state:any){
+    shops(state:profileState){
         return state.shops
     }
 }

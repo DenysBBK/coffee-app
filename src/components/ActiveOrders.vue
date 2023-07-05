@@ -51,8 +51,8 @@ export default{
                 position:this.ordersArr[index].positionId,
                 placeId:this.ordersArr[index].cafeId,
                 status:3,
-                type:'users'}
-            console.log(findOrder);
+                type:'users'
+            }
 
             
            try{
@@ -72,7 +72,6 @@ export default{
     async mounted(){
         document.title = 'Active orders'
         await this.$store.dispatch('getOrders', 'user');
-        console.log('Hello!')
         this.ordersArr = this.$store.getters.orders.filter(one => one.status !== 3)
         
         

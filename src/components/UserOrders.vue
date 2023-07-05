@@ -105,7 +105,6 @@ export default{
             
         },
         makeOrder(){
-            console.log('Make an order')
             this.openOrderModal = true
         },
         noOrderClose(){
@@ -114,8 +113,7 @@ export default{
         async closeModal(data){
             this.openOrderModal = false;
             this.useAlert('success', 'Order created')
-            console.log(this.id)
-            
+              
             try{
                 const orderData = {
                     uid:localStorage.getItem('uid'),
@@ -129,7 +127,6 @@ export default{
                 this.useAlert('error', error.message)
                 
             }
-            let id = localStorage.getItem('uid');
             this.$router.replace(`/active-orders`)
         }
     },
@@ -137,7 +134,6 @@ export default{
         document.title = 'Order'
         this.choosenCity = 'choose'
         this.choosenShop = 'choose'
-        
         
         try{
             await this.$store.dispatch('getCoffeeShops')

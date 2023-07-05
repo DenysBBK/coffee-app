@@ -26,7 +26,7 @@ export default{
   },
   created(){
     this.$store.dispatch('loginFromStorage')
-    console.log('Hello from Netlify!')
+    
     
   },
 }

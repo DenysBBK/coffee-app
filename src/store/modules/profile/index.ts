@@ -1,9 +1,11 @@
 import actions from "./actions";
 import getters from "./getters";
 import mutations from "./mutations";
+import { profileState } from "./profileTypes";
+
 
 export default{
-    state(){
+    state():profileState{
         return{
             user:{
                 bank:'',

@@ -1,27 +1,10 @@
-interface getUserData{
-    bank:string,
-    card:string,
-    email:string,
-    id:number,
-    name:string,
-    phone:string
-}
-interface getCafeData{
-    address:string,
-    name:string,
-    phone:string,
-    id:number,
-    email:string,
-    positions:[{
-        name:string,
-        price:string
-    }],
-    city:string
-}
+import { getUserData, getCafeData, profileState, postUserData, postCafeData,shopsArr } from "./profileTypes";
+import { ActionContext } from "vuex";
+import { RootStoreState } from "../types";
 
 
 export default{
-    async postUser(context:any,payload:any){
+    async postUser(_:ActionContext<RootStoreState, profileState>,payload:postUserData):Promise<void>{
         let uid = localStorage.getItem('uid');
         const url = `https://coffee-app-fc81b-default-rtdb.europe-west1.firebasedatabase.app/users/${uid}.json`
 
@@ -43,11 +26,11 @@ export default{
             throw new Error('Cant post the data')
         }
     },
-    async getUserData(context:any){
+    async getUserData(context:ActionContext<RootStoreState, profileState>):Promise<void>{
         let uid = localStorage.getItem('uid');
         const responce = await fetch(`https://coffee-app-fc81b-default-rtdb.europe-west1.firebasedatabase.app/users/${uid}.json`);
         const data:getUserData = await responce.json();
-        console.log(data)
+        
         
         context.commit('getUser',{
             bank:data.bank,
@@ -59,7 +42,7 @@ export default{
         })
         
     },
-    async postCafe(_:any, payload:any){
+    async postCafe(_:ActionContext<RootStoreState, profileState>, payload:postCafeData):Promise<void>{
         let uid = localStorage.getItem('uid');
         const url = `https://coffee-app-fc81b-default-rtdb.europe-west1.firebasedatabase.app/shops/${uid}.json`;
         const getResp = await fetch(url);
@@ -82,7 +65,7 @@ export default{
             throw new Error('Cant post the data')
         }
     },
-    async getCafeData(context:any){
+    async getCafeData(context:ActionContext<RootStoreState, profileState>):Promise<void>{
         let uid = localStorage.getItem('uid');
         const responce = await fetch(`https://coffee-app-fc81b-default-rtdb.europe-west1.firebasedatabase.app/shops/${uid}.json`);
         const data:getCafeData = await responce.json();
@@ -97,13 +80,13 @@ export default{
             city:data.city
         })
     },
-    async getCoffeeShops(context:any){
+    async getCoffeeShops(context:ActionContext<RootStoreState, profileState>):Promise<void>{
         const responce = await fetch('https://coffee-app-fc81b-default-rtdb.europe-west1.firebasedatabase.app/shops.json');
         const data = await responce.json();
 
-        const shops:any[] = [];
+        const shops:shopsArr[] = [];
         for(let one in data){
-            const item ={
+            const item:shopsArr ={
                 address:data[one].address,
                 city:data[one].city,
                 email:data[one].email,
@@ -114,6 +97,8 @@ export default{
             };
             shops.push(item)
         };
+       
+        
         if(!data){
             throw new Error('The is no caffe')
         }   

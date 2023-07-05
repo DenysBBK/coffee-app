@@ -9,15 +9,15 @@
             <p class='font-bold text-xl'>Login</p>
             <div class='flex flex-col pt-3'>
                 <label for="email" class='text-center'>Email</label>
-                <input type="email" id="email"  class='mt-2' v-model.trim="email">
+                <input type="email" id="email"  class='mt-2 pl-1' v-model.trim="email">
                 <p class="text-red-600 text-xs" v-if="isEmailValid">Email must be not empty</p>
             </div>
             <div class='flex flex-col pt-3'>
                 <label for="password" class='text-center'>Password</label>
                 <div class="flex gap-x-2 pl-7">
-                    <input v-if="!isPassOpen" type="text" id="password"  class='mt-2' v-model.trim="password">
+                    <input v-if="!isPassOpen" type="text" id="password"  class='mt-2 pl-1' v-model.trim="password">
                     <img @click="swithBtnPassVis" v-if="!isPassOpen" src = '../../images/eye-open.png' class='max-w-50 max-h-5 self-end'>
-                    <input type="password" id="password"  class='mt-2' v-model.trim="password" v-if="isPassOpen">
+                    <input type="password" id="password"  class='mt-2 pl-1' v-model.trim="password" v-if="isPassOpen">
                     <img @click="swithBtnPassVis" v-if="isPassOpen" src = '../../images/eye-closed.png' class='max-w-50 max-h-5 self-end'>
                 </div>
                 <p class="text-red-600 text-xs" v-if="isPasswordValid">Password must be not empty</p>
@@ -86,7 +86,6 @@ export default{
             try{
                 this.isLoading = true
                 await this.$store.dispatch('signIn', actionPayload);    
-                console.log(this.uid)
                 this.useAlert('success', 'Succesful login')
                 setTimeout(() => {
                     this.isLoading = false
@@ -112,23 +111,9 @@ export default{
             uid(){
                 return this.$store.getters.uid
             },
-           //сделать доступным к нажатию только один чек-бокс
-        // isOneProperty(){
-        //     if(this.toShopAccount && this.toUserAccount){
-        //         this.checkValidator = true
-        //         return true
-        //     }else{
-        //         this.checkValidator = false
-        //         return false
-        //     }
-            
-        
-        //     }
         },
         mounted(){
             document.title = 'Login'
-            console.log('Login')
-            
         },
     }
     
